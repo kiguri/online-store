@@ -1,0 +1,15 @@
+{
+  "name": "online-store-react",
+  "version": "1.0.0",
+  "description": "online store MERN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server"
+  },
+  "author": "huyha",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
