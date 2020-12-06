@@ -1,11 +1,21 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
-import products from '../products';
 
 const ProductScreen = () => {
+    const [product, setProduct] = useState({});
     const { id } = useParams();
-    const product = products.find((product) => product._id === id);
     const isInStock = product.countInStock > 0;
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const { data } = await axios.get(`/api/products/${id}`);
+            setProduct(data);
+        };
+
+        fetchProduct();
+    }, [id]);
 
     return (
         <div className='my-8 min-h-80vh'>
