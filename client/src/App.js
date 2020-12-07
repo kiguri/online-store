@@ -6,17 +6,22 @@ import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 
+//Import provider
+import { ProductProvider } from './contexts/ProductContext';
+
 function App() {
     return (
         <Router>
-            <div className='bg-white'>
-                <Header />
+            <ProductProvider>
+                <div className='bg-white'>
+                    <Header />
 
-                <Route path='/' component={HomeScreen} exact />
-                <Route path='/product/:id' component={ProductScreen} />
+                    <Route path='/' component={HomeScreen} exact />
+                    <Route path='/product/:id' component={ProductScreen} />
 
-                <Footer />
-            </div>
+                    <Footer />
+                </div>
+            </ProductProvider>
         </Router>
     );
 }

@@ -7,11 +7,11 @@ node_modules/
 .pnp.js
 
 
-# ide
+# ide dev
 .vscode
 .idea
-
 .eslintcache
+
 
 # testing
 /coverage
@@ -22,6 +22,7 @@ node_modules/
 # misc
 .DS_Store
 .env.local
+.env
 .env.development.local
 .env.test.local
 .env.production.local

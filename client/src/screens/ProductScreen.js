@@ -20,7 +20,7 @@ const ProductScreen = () => {
     return (
         <div className='my-8 min-h-80vh'>
             <div className='container mx-auto px-6'>
-                <div class='md:flex md:items-center'>
+                <div className='md:flex md:items-center'>
                     {/* Product image */}
                     <div className='w-full h-64 md:w-1/2 lg:h-96'>
                         <img

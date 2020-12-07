@@ -1,6 +1,5 @@
 const products = [
     {
-        _id: '1',
         name: 'Classic watch',
         image:
             'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -14,7 +13,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '2',
         name: 'Gold watch',
         image:
             'https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80',
@@ -28,7 +26,6 @@ const products = [
         numReviews: 8,
     },
     {
-        _id: '3',
         name: 'Fossil watch',
         image:
             'https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
@@ -42,7 +39,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '4',
         name: 'Diamond watch',
         image:
             'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -56,7 +52,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '5',
         name: 'Rolex watch',
         image:
             'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -70,7 +65,6 @@ const products = [
         numReviews: 10,
     },
     {
-        _id: '6',
         name: 'Cheap watch',
         image:
             'https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
@@ -84,7 +78,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '7',
         name: 'Basic watch',
         image:
             'https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -98,7 +91,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '8',
         name: 'Normal watch',
         image:
             'https://images.unsplash.com/photo-1444881421460-d838c3b98f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80',
@@ -112,7 +104,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '9',
         name: 'Luxury watch',
         image:
             'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -126,7 +117,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '10',
         name: 'Princess',
         image:
             'https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80',
@@ -140,7 +130,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '11',
         name: 'Royal watch',
         image:
             'https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
@@ -154,7 +143,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '12',
         name: 'Silver watch',
         image:
             'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -168,7 +156,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '13',
         name: 'Gold watch',
         image:
             'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -182,7 +169,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '14',
         name: 'Rolex watch',
         image:
             'https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
@@ -196,7 +182,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '15',
         name: 'MVMTX watch',
         image:
             'https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
@@ -210,7 +195,6 @@ const products = [
         numReviews: 12,
     },
     {
-        _id: '16',
         name: 'Diamond watch',
         image:
             'https://images.unsplash.com/photo-1444881421460-d838c3b98f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80',

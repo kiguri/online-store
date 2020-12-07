@@ -4,14 +4,19 @@
   "description": "online store MERN",
   "main": "index.js",
   "scripts": {
-      "serv" : "nodemon server",
-      "client" : "yarn --cwd client start",
-      "dev": "concurrently \"yarn run serv\" \"yarn run client\""
+    "serv": "nodemon server",
+    "client": "yarn --cwd client start",
+    "dev": "concurrently \"yarn run serv\" \"yarn run client\"",
+    "data:import": "node server/seeder",
+    "data:destroy": "node server/seeder -d"
   },
   "author": "huyha",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.4"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

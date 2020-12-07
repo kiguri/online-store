@@ -1,20 +1,27 @@
 const express = require('express');
-const products = require('./data/products');
+const connectDb = require('./config/db');
+const dotenv = require('dotenv');
+const productRouter = require('./routes/product');
+const { notFound } = require('./middleware/error');
 
+dotenv.config();
+connectDb();
 const app = express();
-const PORT = 5001;
 
 app.get('/', (req, res) => {
     res.send('Api running');
 });
 
-app.get('/api/products', (req, res) => {
-    res.json(products);
-});
+//products endpoint
+app.use('/api/products', productRouter);
 
-app.get('/api/products/:id', (req, res) => {
-    const product = products.find((product) => product._id === req.params.id);
-    res.json(product);
-});
+//middleware
+app.use(notFound);
 
-app.listen(PORT, console.log(`Server is running on http://localhost:${PORT}`));
+//run
+app.listen(
+    process.env.PORT,
+    console.log(
+        `Server is running in ${process.env.NODE_ENV} mode on http://localhost:${process.env.PORT}`
+    )
+);

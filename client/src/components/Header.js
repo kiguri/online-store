@@ -5,7 +5,6 @@ import ProfileDropdown from './ProfileDropdown';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
-    const [auth, setAuth] = useState(null);
 
     return (
         <header>
@@ -44,7 +43,7 @@ const Header = () => {
                             Login
                         </Link>
 
-                        {auth && (
+                        {false && (
                             <button
                                 onClick={() => setProfileOpen(!profileOpen)}
                                 type='button'
