@@ -12,11 +12,14 @@ const initialState = {
     products: [],
     loading: false,
     error: null,
+    product: {
+        reviews: [],
+    },
 };
 
 export const ProductProvider = ({ children }) => {
     const [state, dispatch] = useReducer(productReducer, initialState);
-    const { products, loading, error } = state;
+    const { products, loading, error, product } = state;
 
     const fetchProducts = useCallback(async () => {
         try {
@@ -28,14 +31,48 @@ export const ProductProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: 'FETCH_PRODUCTS_FAILED',
-                payload: error.response.data.message,
+                payload:
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
             });
         }
     }, [dispatch]);
 
+    const fetchProductById = useCallback(
+        async (id) => {
+            try {
+                dispatch({ type: 'FETCH_PRODUCT_DETAILS' });
+
+                const { data } = await axios.get(`/api/products/${id}`);
+
+                dispatch({
+                    type: 'FETCH_PRODUCT_DETAILS_SUCCESS',
+                    payload: data,
+                });
+            } catch (error) {
+                dispatch({
+                    type: 'FETCH_PRODUCT_DETAILS_FAILED',
+                    payload:
+                        error.response && error.response.data.message
+                            ? error.response.data.message
+                            : error.message,
+                });
+            }
+        },
+        [dispatch]
+    );
+
     return (
         <ProductContext.Provider
-            value={{ products, loading, error, fetchProducts }}
+            value={{
+                products,
+                product,
+                loading,
+                error,
+                fetchProducts,
+                fetchProductById,
+            }}
         >
             {children}
         </ProductContext.Provider>
