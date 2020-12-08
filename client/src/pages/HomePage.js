@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useProductContext } from '../contexts/ProductContext';
 import Product from '../components/Product';
 
-const HomeScreen = () => {
+const HomePage = () => {
     const { products, loading, error, fetchProducts } = useProductContext();
 
     useEffect(() => {
@@ -37,4 +37,4 @@ const HomeScreen = () => {
     );
 };
 
-export default HomeScreen;
+export default HomePage;

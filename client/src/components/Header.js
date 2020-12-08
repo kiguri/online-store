@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { CartIcon, UserIcon, SearchIcon } from '../svg';
 import ProfileDropdown from './ProfileDropdown';
+import { useCartContext } from '../contexts/CartContext';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
+    const { cartItems, toggleCart } = useCartContext();
+    const total = cartItems.reduce((total, item) => total + item.qty, 0);
 
     return (
         <header>
@@ -32,8 +35,15 @@ const Header = () => {
 
                     {/* Icon group */}
                     <div className='w-full flex items-center justify-end relative'>
-                        <button className='text-gray-600 hover:text-gray-500 focus:outline-none mx-4'>
+                        <button
+                            onClick={toggleCart}
+                            className='relative text-gray-600 hover:text-gray-500 focus:outline-none mx-4'
+                        >
                             <CartIcon />
+
+                            <div className='absolute top-0 right-0 -mt-2 -mr-3 w-4 h-4 text-xs rounded-full bg-green-500 text-white font-medium'>
+                                {total}
+                            </div>
                         </button>
 
                         <Link

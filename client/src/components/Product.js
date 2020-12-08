@@ -28,7 +28,7 @@ const Product = ({ product }) => {
                     </Link>
                     <span className='text-gray-500 mt-2'>${price}</span>
                 </div>
-                <button className='p-2 rounded-full bg-green-400 text-white hover:bg-green-500 focus:outline-none focus:bg-green-500'>
+                <button className='p-2 rounded-full bg-green-400 text-white hover:bg-green-500 focus:outline-none'>
                     <CartIcon />
                 </button>
             </div>

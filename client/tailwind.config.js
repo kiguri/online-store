@@ -13,8 +13,9 @@ module.exports = {
     },
     variants: {
         extend: {
-            opacity: ['disabled'],
+            backgroundColor: ['disabled'],
             pointerEvents: ['disabled'],
+            textColor: ['disabled'],
         },
     },
     plugins: [],

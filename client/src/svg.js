@@ -73,11 +73,11 @@ export const EmptyStarIcon = () => (
 
 export const PlusIcon = () => (
     <svg
-        class='h-5 w-5'
+        className='h-5 w-5'
         fill='none'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='2'
         viewBox='0 0 24 24'
         stroke='currentColor'
     >
@@ -87,14 +87,57 @@ export const PlusIcon = () => (
 
 export const MinusIcon = () => (
     <svg
-        class='h-5 w-5'
+        className='h-5 w-5'
         fill='none'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='2'
         viewBox='0 0 24 24'
         stroke='currentColor'
     >
         <path d='M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+    </svg>
+);
+
+export const CloseIcon = () => (
+    <svg
+        className='h-5 w-5'
+        fill='none'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='2'
+        viewBox='0 0 24 24'
+        stroke='currentColor'
+    >
+        <path d='M6 18L18 6M6 6l12 12'></path>
+    </svg>
+);
+
+export const ArrowRightIcon = () => (
+    <svg
+        className='h-5 w-5 mx-2'
+        fill='none'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='2'
+        viewBox='0 0 24 24'
+        stroke='currentColor'
+    >
+        <path d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+    </svg>
+);
+
+export const ShoppingIcon = () => (
+    <svg
+        xmlns='http://www.w3.org/2000/svg'
+        viewBox='0 0 20 20'
+        fill='currentColor'
+        className='h-5 w-5 text-green-600'
+    >
+        <path
+            fill-rule='evenodd'
+            d='M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z'
+            clip-rule='evenodd'
+        />
     </svg>
 );
