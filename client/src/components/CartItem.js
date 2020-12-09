@@ -1,6 +1,9 @@
 import { MinusIcon, PlusIcon } from '../svg';
+import { useCartContext } from '../contexts/CartContext';
 
 const CartItem = ({ cartItem }) => {
+    const { addToCart, removeFromCart } = useCartContext();
+
     return (
         <div className='flex mt-6'>
             <img
@@ -11,11 +14,17 @@ const CartItem = ({ cartItem }) => {
             <div className='ml-6'>
                 <h3 className='text-sm text-gray-400'>{cartItem.name}</h3>
                 <div className='flex items-center mt-2'>
-                    <button className='text-gray-500 focus:outline-none focus:text-gray-600'>
+                    <button
+                        onClick={() => removeFromCart(cartItem)}
+                        className='text-gray-500 focus:outline-none focus:text-gray-600'
+                    >
                         <MinusIcon />
                     </button>
                     <span className='text-gray-500 mx-2'>{cartItem.qty}</span>
-                    <button className='text-gray-500 focus:outline-none focus:text-gray-600'>
+                    <button
+                        onClick={() => addToCart(cartItem)}
+                        className='text-gray-500 focus:outline-none focus:text-gray-600'
+                    >
                         <PlusIcon />
                     </button>
                 </div>

@@ -4,12 +4,14 @@ import { CloseIcon, ArrowRightIcon, ShoppingIcon } from '../svg';
 import { useCartContext } from '../contexts/CartContext';
 
 const Cart = () => {
-    const { cartItems, addToCart, hidden, toggleCart } = useCartContext();
-    const total = cartItems.reduce((total, item) => total + item.qty, 0);
-    const totalPrice = cartItems.reduce(
-        (total, item) => total + item.qty * item.price,
-        0
-    );
+    const {
+        cartItems,
+        total,
+        totalPrice,
+        hidden,
+        toggleCart,
+    } = useCartContext();
+
     return (
         <div
             className={`${
@@ -46,6 +48,7 @@ const Cart = () => {
             </div>
 
             <Link
+                onClick={toggleCart}
                 to='/checkout'
                 className='flex items-center justify-end h-14 px-1 mb-2 bg-green-600 text-white text-sm font-medium rounded-2xl hover:bg-green-500 focus:outline-none'
             >

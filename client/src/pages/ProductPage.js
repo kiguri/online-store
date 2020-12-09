@@ -6,21 +6,31 @@ import { useCartContext } from '../contexts/CartContext';
 import { MinusIcon, PlusIcon } from '../svg';
 import Rating from '../components/Rating';
 
+const useQuantity = (item) => {
+    const [qty, setQty] = useState(0);
+
+    useEffect(() => {
+        if (item) {
+            setQty(item.qty);
+        } else {
+            setQty(0);
+        }
+    }, [item, setQty]);
+    return qty;
+};
+
 const ProductPage = () => {
     const { product, loading, error, fetchProductById } = useProductContext();
-    const { addToCart } = useCartContext();
+    const { cartItems, addToCart, removeFromCart } = useCartContext();
     const { id } = useParams();
-    const [qty, setQty] = useState(1);
     const isInStock = product.countInStock > 0;
+    const item = cartItems.find((cartItem) => cartItem._id === product._id);
+
+    const qty = useQuantity(item);
 
     useEffect(() => {
         fetchProductById(id);
     }, [fetchProductById, id]);
-
-    const addToCartHandle = (e) => {
-        e.preventDefault();
-        addToCart(product, qty);
-    };
 
     return (
         <main className='my-8 min-h-80vh'>
@@ -78,48 +88,38 @@ const ProductPage = () => {
                             </div>
 
                             {/* Button add to cart */}
-                            <form className='flex'>
-                                <div className='flex items-center mr-4'>
+                            <div className='flex'>
+                                {qty === 0 ? (
                                     <button
-                                        onClick={() => {
-                                            qty > 1 &&
-                                                setQty(
-                                                    (prevQty) => prevQty - 1
-                                                );
-                                        }}
+                                        onClick={() => addToCart(product)}
                                         disabled={!isInStock}
-                                        type='button'
-                                        className='text-gray-500 focus:outline-none focus:text-gray-600 disabled:pointer-events-none'
+                                        type='submit'
+                                        className=' py-3 w-36 bg-green-600 text-white text-sm font-medium rounded-2xl disabled:pointer-events-none disabled:bg-green-400 pointer-events-auto hover:bg-green-500 focus:outline-none'
                                     >
-                                        <MinusIcon />
+                                        Add to cart
                                     </button>
-                                    <span className='w-6 mx-2 text-center'>
-                                        {qty}
-                                    </span>
-                                    <button
-                                        onClick={() => {
-                                            qty < product.countInStock &&
-                                                setQty(
-                                                    (prevQty) => prevQty + 1
-                                                );
-                                        }}
-                                        disabled={!isInStock}
-                                        type='button'
-                                        className='text-gray-500 focus:outline-none focus:text-gray-600 disabled:pointer-events-none'
-                                    >
-                                        <PlusIcon />
-                                    </button>
-                                </div>
-
-                                <button
-                                    onClick={addToCartHandle}
-                                    disabled={!isInStock}
-                                    type='submit'
-                                    className='px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded disabled:pointer-events-none disabled:bg-indigo-400 pointer-events-auto hover:bg-indigo-500 focus:outline-none'
-                                >
-                                    Add to cart
-                                </button>
-                            </form>
+                                ) : (
+                                    <div className='flex justify-center py-3 w-36 bg-green-600 text-sm text-white font-medium rounded-2xl focus:outline-none'>
+                                        <span
+                                            onClick={() =>
+                                                removeFromCart(product)
+                                            }
+                                            className='cursor-pointer'
+                                        >
+                                            <MinusIcon />
+                                        </span>
+                                        <span className='text-center w-10'>
+                                            {qty}
+                                        </span>
+                                        <span
+                                            onClick={() => addToCart(product)}
+                                            className='cursor-pointer'
+                                        >
+                                            <PlusIcon />
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}

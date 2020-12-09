@@ -6,8 +6,7 @@ import { useCartContext } from '../contexts/CartContext';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
-    const { cartItems, toggleCart } = useCartContext();
-    const total = cartItems.reduce((total, item) => total + item.qty, 0);
+    const { cartItems, toggleCart, total } = useCartContext();
 
     return (
         <header>

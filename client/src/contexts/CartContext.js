@@ -16,15 +16,22 @@ export const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, initialState);
     const { cartItems, hidden } = state;
 
-    const addToCart = (item, qty) => {
+    const total = cartItems.reduce((total, item) => total + item.qty, 0);
+    const totalPrice = cartItems
+        .reduce((total, item) => total + item.qty * item.price, 0)
+        .toFixed(2);
+
+    const addToCart = (product) =>
         dispatch({
-            type: 'CART_ADD_ITEM',
-            payload: {
-                ...item,
-                qty,
-            },
+            type: 'ADD_ITEM_TO_CART',
+            payload: product,
         });
-    };
+
+    const removeFromCart = (product) =>
+        dispatch({
+            type: 'REMOVE_ITEM_FROM_CART',
+            payload: product,
+        });
 
     const toggleCart = () => {
         dispatch({ type: 'TOGGLE_CART' });
@@ -32,7 +39,15 @@ export const CartProvider = ({ children }) => {
 
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, hidden, toggleCart }}
+            value={{
+                cartItems,
+                addToCart,
+                removeFromCart,
+                total,
+                totalPrice,
+                hidden,
+                toggleCart,
+            }}
         >
             {children}
         </CartContext.Provider>
