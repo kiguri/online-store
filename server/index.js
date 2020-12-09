@@ -2,18 +2,21 @@ const express = require('express');
 const connectDb = require('./config/db');
 const dotenv = require('dotenv');
 const productRouter = require('./routes/product');
+const userRouter = require('./routes/user');
 const { notFound } = require('./middleware/error');
 
 dotenv.config();
 connectDb();
 const app = express();
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Api running');
 });
 
-//products endpoint
 app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
 
 //middleware
 app.use(notFound);

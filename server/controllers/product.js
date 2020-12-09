@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 
+// GET /api/products
 //Fetch all products
 const fetchAllProduct = async (req, res) => {
     try {
@@ -11,6 +12,7 @@ const fetchAllProduct = async (req, res) => {
     }
 };
 
+// GET /api/products/:id
 // Fetch single product by id
 const fetchProductById = async (req, res) => {
     try {
