@@ -1,46 +1,14 @@
 export const cartReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_ITEM_TO_CART':
-            const existItem = state.cartItems.find(
-                (cartItem) => cartItem._id === action.payload._id
-            );
-            if (!existItem) {
-                return {
-                    ...state,
-                    cartItems: [
-                        ...state.cartItems,
-                        { ...action.payload, qty: 1 },
-                    ],
-                };
-            } else {
-                return {
-                    ...state,
-                    cartItems: state.cartItems.map((cartItem) =>
-                        cartItem._id === action.payload._id
-                            ? { ...cartItem, qty: cartItem.qty + 1 }
-                            : cartItem
-                    ),
-                };
-            }
-        case 'REMOVE_ITEM_FROM_CART':
-            const existedItem = state.cartItems.find(
-                (cartItem) => cartItem._id === action.payload._id
-            );
-            if (existedItem.qty === 1) {
-                return {
-                    ...state,
-                    cartItems: state.cartItems.filter(
-                        (cartItem) => cartItem._id !== action.payload._id
-                    ),
-                };
-            }
             return {
                 ...state,
-                cartItems: state.cartItems.map((cartItem) =>
-                    cartItem._id === action.payload._id
-                        ? { ...cartItem, qty: cartItem.qty - 1 }
-                        : cartItem
-                ),
+                cartItems: addItem(state.cartItems, action.payload),
+            };
+        case 'REMOVE_ITEM_FROM_CART':
+            return {
+                ...state,
+                cartItems: removeItem(state.cartItems, action.payload),
             };
         case 'TOGGLE_CART':
             return {
@@ -51,4 +19,30 @@ export const cartReducer = (state, action) => {
         default:
             return state;
     }
+};
+
+const addItem = (cart, item) => {
+    const existItem = cart.find((cartItem) => cartItem._id === item._id);
+    if (!existItem) {
+        return [...cart, { ...item, qty: 1 }];
+    }
+    return cart.map((cartItem) =>
+        cartItem._id === item._id && cartItem.qty < cartItem.countInStock
+            ? { ...cartItem, qty: cartItem.qty + 1 }
+            : cartItem
+    );
+};
+
+const removeItem = (cart, item) => {
+    const existItem = cart.find((cartItem) => cartItem._id === item._id);
+
+    if (existItem.qty === 1) {
+        return cart.filter((cartItem) => cartItem._id !== item._id);
+    }
+
+    return cart.map((cartItem) =>
+        cartItem._id === item._id
+            ? { ...cartItem, qty: cartItem.qty - 1 }
+            : cartItem
+    );
 };
