@@ -21,7 +21,8 @@ const authUser = async (req, res) => {
             throw new Error('Invalid email or password');
         }
     } catch (error) {
-        res.send({ message: error.message });
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
     }
 };
 
@@ -43,7 +44,8 @@ const getUserProfile = async (req, res) => {
             throw new Error('User not found');
         }
     } catch (error) {
-        res.send({ message: error.message });
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
     }
 };
 // POST /api/users
@@ -59,6 +61,7 @@ const signup = async (req, res) => {
         }
 
         const newUser = await User.create({ name, email, password });
+
         if (newUser) {
             res.status(201).json({
                 id: newUser._id,
@@ -72,7 +75,8 @@ const signup = async (req, res) => {
             throw new Error('Invalid user data');
         }
     } catch (error) {
-        res.status(500).send({ message: error.message });
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
     }
 };
 

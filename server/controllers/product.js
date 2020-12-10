@@ -25,7 +25,8 @@ const fetchProductById = async (req, res) => {
 
         res.json(product);
     } catch (error) {
-        res.status(500).send({ message: error.message });
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
     }
 };
 

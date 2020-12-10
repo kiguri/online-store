@@ -19,8 +19,8 @@ const protect = async (req, res, next) => {
             throw new Error('Not authorized');
         }
     } catch (error) {
-        console.error(error);
-        res.status(401).send({ message: error.message });
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
     }
 };
 
