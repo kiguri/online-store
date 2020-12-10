@@ -6,7 +6,7 @@ import { useCartContext } from '../contexts/CartContext';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
-    const { cartItems, toggleCart, total } = useCartContext();
+    const { toggleCart, total } = useCartContext();
 
     return (
         <header>
@@ -26,7 +26,7 @@ const Header = () => {
                             <SearchIcon />
                         </span>
                         <input
-                            className='w-full border rounded-md pl-4 sm:py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline'
+                            className='w-full border rounded-md pl-4 sm:py-2 focus:border-teal-500 focus:outline-none focus:shadow-outline'
                             type='text'
                             placeholder='Search'
                         />
@@ -40,9 +40,11 @@ const Header = () => {
                         >
                             <CartIcon />
 
-                            <div className='absolute top-0 right-0 -mt-2 -mr-3 w-4 h-4 text-xs rounded-full bg-green-500 text-white font-medium'>
-                                {total}
-                            </div>
+                            {total > 0 && (
+                                <div className='absolute top-0 right-0 -mt-2 -mr-3 w-4 h-4 text-xs rounded-full bg-teal-500 text-white font-medium'>
+                                    {total}
+                                </div>
+                            )}
                         </button>
 
                         <Link

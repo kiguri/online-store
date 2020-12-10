@@ -21,7 +21,7 @@ const Cart = () => {
             <div className='flex items-center justify-between'>
                 <div className='flex'>
                     <ShoppingIcon />
-                    <span className='text-green-600 font-medium ml-2'>
+                    <span className='text-teal-600 font-medium ml-2'>
                         {total} items
                     </span>
                 </div>
@@ -50,11 +50,11 @@ const Cart = () => {
             <Link
                 onClick={toggleCart}
                 to='/checkout'
-                className='flex items-center justify-end h-14 px-1 mb-2 bg-green-600 text-white text-sm font-medium rounded-2xl hover:bg-green-500 focus:outline-none'
+                className='flex items-center justify-end h-14 px-1 mb-2 bg-teal-600 text-white text-sm font-medium rounded-2xl hover:bg-teal-500 focus:outline-none'
             >
                 <span>Chechout</span>
                 <ArrowRightIcon />
-                <span className='h-12 w-20 inline-flex items-center justify-center bg-white ml-3 text-green-600 rounded-xl'>
+                <span className='h-12 w-20 inline-flex items-center justify-center bg-white ml-3 text-teal-600 rounded-xl'>
                     {totalPrice}$
                 </span>
             </Link>

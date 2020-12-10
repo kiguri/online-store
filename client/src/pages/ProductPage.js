@@ -33,7 +33,7 @@ const ProductPage = () => {
     }, [fetchProductById, id]);
 
     return (
-        <main className='my-8 min-h-80vh'>
+        <main className='my-8 min-h-8/10'>
             <div className='container mx-auto px-6'>
                 {loading ? (
                     <h2>Loading...</h2>

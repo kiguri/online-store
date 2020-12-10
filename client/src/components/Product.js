@@ -11,10 +11,13 @@ const Product = ({ product }) => {
     return (
         <div className='w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden'>
             <Link to={`/product/${_id}`}>
-                <div
-                    className='flex items-end justify-end h-56 w-full bg-cover'
-                    style={{ backgroundImage: `url(${image})` }}
-                />
+                <div className='h-56'>
+                    <img
+                        className='h-full w-full object-cover'
+                        src={image}
+                        alt={name}
+                    />
+                </div>
             </Link>
 
             <div className='px-5 mt-4'>
@@ -33,7 +36,7 @@ const Product = ({ product }) => {
                 </div>
                 <button
                     onClick={() => addToCart(product)}
-                    className='p-2 rounded-full bg-green-400 text-white hover:bg-green-500 focus:outline-none'
+                    className='p-2 rounded-full bg-teal-400 text-white hover:bg-teal-500 focus:outline-none'
                 >
                     <CartIcon />
                 </button>

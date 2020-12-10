@@ -10,7 +10,7 @@ const HomePage = () => {
     }, [fetchProducts]);
 
     return (
-        <main className='my-8 min-h-80vh'>
+        <main className='my-8 min-h-8/10'>
             <div className='container mx-auto px-6'>
                 {loading ? (
                     <h2>Loading...</h2>
@@ -19,7 +19,7 @@ const HomePage = () => {
                 ) : (
                     <>
                         <h3 className='text-gray-700 text-xl font-medium'>
-                            Best Watch
+                            Best Sneakers
                         </h3>
                         <span className='mt-3 text-sm text-gray-500'>
                             200+ products

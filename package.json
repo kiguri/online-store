@@ -7,8 +7,8 @@
     "serv": "nodemon server",
     "client": "yarn --cwd client start",
     "dev": "concurrently \"yarn run serv\" \"yarn run client\"",
-    "data:import": "node server/seeder",
-    "data:destroy": "node server/seeder -d"
+    "data:import": "node server/utils/seeder",
+    "data:destroy": "node server/utils/seeder -d"
   },
   "author": "huyha",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.4"
   },
   "devDependencies": {

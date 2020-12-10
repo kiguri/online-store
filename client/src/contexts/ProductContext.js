@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useCallback } from 'react';
 import { productReducer } from '../reducers/productReducer';
+import { productActionType } from '../constants/productConstant';
 import axios from 'axios';
 
 const ProductContext = createContext();
@@ -23,14 +24,17 @@ export const ProductProvider = ({ children }) => {
 
     const fetchProducts = useCallback(async () => {
         try {
-            dispatch({ type: 'FETCH_PRODUCTS' });
+            dispatch({ type: productActionType.FETCH_PRODUCTS });
 
             const { data } = await axios.get('/api/products');
 
-            dispatch({ type: 'FETCH_PRODUCTS_SUCCESS', payload: data });
+            dispatch({
+                type: productActionType.FETCH_PRODUCTS_SUCCESS,
+                payload: data,
+            });
         } catch (error) {
             dispatch({
-                type: 'FETCH_PRODUCTS_FAILED',
+                type: productActionType.FETCH_PRODUCTS_FAILED,
                 payload:
                     error.response && error.response.data.message
                         ? error.response.data.message
@@ -42,17 +46,17 @@ export const ProductProvider = ({ children }) => {
     const fetchProductById = useCallback(
         async (id) => {
             try {
-                dispatch({ type: 'FETCH_PRODUCT_DETAILS' });
+                dispatch({ type: productActionType.FETCH_PRODUCT_DETAILS });
 
                 const { data } = await axios.get(`/api/products/${id}`);
 
                 dispatch({
-                    type: 'FETCH_PRODUCT_DETAILS_SUCCESS',
+                    type: productActionType.FETCH_PRODUCT_DETAILS_SUCCESS,
                     payload: data,
                 });
             } catch (error) {
                 dispatch({
-                    type: 'FETCH_PRODUCT_DETAILS_FAILED',
+                    type: productActionType.FETCH_PRODUCT_DETAILS_FAILED,
                     payload:
                         error.response && error.response.data.message
                             ? error.response.data.message

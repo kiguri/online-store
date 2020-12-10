@@ -1,4 +1,4 @@
-import renderStar from '../utils';
+import { renderStar } from '../utils';
 
 const Rating = ({ rating, numReviews }) => {
     const starList = renderStar(rating);

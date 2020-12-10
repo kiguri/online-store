@@ -5,7 +5,7 @@ const CheckoutPage = () => {
     const { cartItems, total, totalPrice } = useCartContext();
 
     return (
-        <main className='my-8 min-h-80vh'>
+        <main className='my-8 min-h-8/10'>
             <div className='container mx-auto px-6'>
                 <h3 className='text-gray-700 text-xl font-medium'>Checkout</h3>
 
