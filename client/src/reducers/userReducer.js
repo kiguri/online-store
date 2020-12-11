@@ -7,6 +7,7 @@ export const userReducer = (state, action) => {
         case userActionType.GET_DETAILS:
             return {
                 ...state,
+                error: null,
                 loading: true,
             };
         case userActionType.SIGNUP_SUCCESS:
