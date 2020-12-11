@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { CartIcon, UserIcon, SearchIcon } from '../svg';
 import ProfileDropdown from './ProfileDropdown';
 import { useCartContext } from '../contexts/CartContext';
+import { useUserContext } from '../contexts/UserContext';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
     const { toggleCart, total } = useCartContext();
+    const { currentUser } = useUserContext();
 
     return (
         <header>
@@ -47,14 +49,7 @@ const Header = () => {
                             )}
                         </button>
 
-                        <Link
-                            className='text-gray-600 hover:opacity-100 opacity-90'
-                            to='/login'
-                        >
-                            Login
-                        </Link>
-
-                        {false && (
+                        {currentUser ? (
                             <button
                                 onClick={() => setProfileOpen(!profileOpen)}
                                 type='button'
@@ -62,6 +57,13 @@ const Header = () => {
                             >
                                 <UserIcon />
                             </button>
+                        ) : (
+                            <Link
+                                className='text-gray-600 hover:opacity-100 opacity-90'
+                                to='/login'
+                            >
+                                Login
+                            </Link>
                         )}
 
                         {/* Profile dropdown */}

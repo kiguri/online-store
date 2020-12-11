@@ -1,34 +1,54 @@
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext';
+import Input from '../components/Input';
+
 const SigninForm = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { loading, errorLogin, currentUser, login } = useUserContext();
+    const history = useHistory();
+
+    useEffect(() => {
+        if (currentUser) {
+            history.push('/');
+        }
+    }, [currentUser, history]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        login(email, password);
+    };
+
     return (
-        <form>
-            <div className='flex flex-col'>
+        <form onSubmit={handleSubmit}>
+            <h3 className='text-gray-700 font-bold text-4xl mt-6 mb-5'>
+                Sign in
+            </h3>
+
+            {loading && <h1>...Loading</h1>}
+            {errorLogin && (
+                <span className='text-sm text-red-400'>{errorLogin}</span>
+            )}
+
+            <div className='flex flex-col w-96'>
                 <div className='mb-4'>
-                    <label
-                        className='uppercase text-sm text-gray-500'
-                        htmlFor='email'
-                    >
-                        email
-                    </label>
-                    <input
-                        type='text'
-                        placeholder='Enter your email'
-                        required
-                        className='h-12 mt-2 px-4 w-full rounded-md border border-gray-300 bg-gray-50 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                    <Input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label='email'
+                        type='email'
+                        holder='Enter your email'
                     />
                 </div>
 
                 <div className='mb-4'>
-                    <label
-                        className='uppercase text-sm text-gray-500'
-                        htmlFor='password'
-                    >
-                        password
-                    </label>
-                    <input
+                    <Input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        label='password'
                         type='password'
-                        placeholder='******'
-                        required
-                        className='h-12 mt-2 px-4 w-full rounded-md border border-gray-300 bg-gray-50 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                        holder='******'
                     />
                 </div>
 

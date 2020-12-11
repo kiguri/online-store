@@ -1,64 +1,98 @@
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext';
+import Input from '../components/Input';
+
 const SignupForm = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPsw, setRepeatPsw] = useState('');
+    const history = useHistory();
+
+    const {
+        signup,
+        loading,
+        errorSignup,
+        setSignupError,
+        currentUser,
+    } = useUserContext();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (name.trim().length === 0) {
+            return setSignupError('Name must be filled out');
+        }
+        if (password !== repeatPsw) {
+            return setSignupError('Password do not match');
+        }
+        if (password.trim().includes(' ')) {
+            return setSignupError('Password cannot contain space');
+        }
+        signup(name, email, password);
+    };
+
+    useEffect(() => {
+        return () => {
+            setSignupError(null);
+        };
+    }, [setSignupError]);
+
+    useEffect(() => {
+        if (currentUser) {
+            history.push('/');
+        }
+    }, [currentUser, history]);
+
     return (
-        <form>
-            <div className='flex flex-col'>
+        <form onSubmit={handleSubmit}>
+            <h3 className='text-gray-700 font-bold text-4xl mt-6 mb-5'>
+                Sign up
+            </h3>
+
+            {loading && <h1>...Loading</h1>}
+            {errorSignup && (
+                <span className='text-sm text-red-400'>{errorSignup}</span>
+            )}
+
+            <div className='flex flex-col w-96'>
                 <div className='mb-4'>
-                    <label
-                        className='uppercase text-sm text-gray-500'
-                        htmlFor='name'
-                    >
-                        full name
-                    </label>
-                    <input
+                    <Input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        label='full name'
                         type='text'
-                        placeholder='Ex: Kiguri'
-                        required
-                        className='h-12 mt-2 px-4 w-full rounded-md border border-gray-300 bg-gray-50 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                        holder='Ex: Kiguri'
                     />
                 </div>
 
                 <div className='mb-4'>
-                    <label
-                        className='uppercase text-sm text-gray-500'
-                        htmlFor='email'
-                    >
-                        email
-                    </label>
-                    <input
+                    <Input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label='email'
                         type='email'
-                        placeholder='Ex: kiguri@gmail.com'
-                        required
-                        className='h-12 mt-2 px-4 w-full rounded-md border border-gray-300 bg-gray-50 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                        holder='Ex: kiguri@gmail.com'
                     />
                 </div>
 
                 <div className='mb-4'>
-                    <label
-                        className='uppercase text-sm text-gray-500'
-                        htmlFor='password'
-                    >
-                        password
-                    </label>
-                    <input
+                    <Input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        label='password'
                         type='password'
-                        placeholder='*******'
-                        required
-                        className='h-12 mt-2 px-4 w-full rounded-md border border-gray-300 bg-gray-50 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                        holder='*******'
                     />
                 </div>
 
                 <div className='mb-4'>
-                    <label
-                        className='uppercase text-sm text-gray-500'
-                        htmlFor='passwordRepeat'
-                    >
-                        repeat password
-                    </label>
-                    <input
+                    <Input
+                        value={repeatPsw}
+                        onChange={(e) => setRepeatPsw(e.target.value)}
+                        label='repeat password'
                         type='password'
-                        placeholder='*******'
-                        required
-                        className='h-12 mt-2 px-4 w-full rounded-md border border-gray-300 bg-gray-50 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                        holder='*******'
                     />
                 </div>
 
@@ -69,7 +103,10 @@ const SignupForm = () => {
                     </a>{' '}
                 </p>
 
-                <button className='uppercase py-3 text-white rounded-lg bg-gradient-to-r from-teal-400 to-teal-500 focus:outline-none'>
+                <button
+                    type='submit'
+                    className='uppercase py-3 text-white rounded-lg bg-gradient-to-r from-teal-400 to-teal-500 focus:outline-none'
+                >
                     Sign up
                 </button>
             </div>

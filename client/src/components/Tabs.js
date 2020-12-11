@@ -6,7 +6,7 @@ export const Tabs = ({ children }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     return (
         <TabsContext.Provider value={{ activeIndex, setActiveIndex }}>
-            <div className='flex flex-col'>{children}</div>
+            <div className='flex flex-col items-center'>{children}</div>
         </TabsContext.Provider>
     );
 };
@@ -18,7 +18,7 @@ export const TabList = ({ children }) => {
         <div className='flex justify-center'>
             <div className='bg-gray-50 rounded-lg px-2 py-1'>
                 {Children.toArray(children).map((child, index) => (
-                    <TabListContext.Provider value={{ index }}>
+                    <TabListContext.Provider value={{ index }} key={index}>
                         {child}
                     </TabListContext.Provider>
                 ))}
@@ -44,19 +44,6 @@ export const Tab = ({ children }) => {
             {children}
         </button>
     );
-};
-
-export const TabLabels = ({ children }) => {
-    const { activeIndex } = useContext(TabsContext);
-    return (
-        <h3 className='text-gray-700 font-bold text-4xl mt-6 mb-5'>
-            {Children.toArray(children)[activeIndex]}
-        </h3>
-    );
-};
-
-export const TabLabel = ({ children }) => {
-    return children;
 };
 
 export const TabPanels = ({ children }) => {
