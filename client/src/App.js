@@ -7,7 +7,7 @@ import Cart from './components/Cart';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import CheckoutPage from './pages/CheckoutPage';
-import SignInPage from './pages/SignInPage';
+import SigninPage from './pages/SigninPage';
 
 //Import provider
 import { ProductProvider } from './contexts/ProductContext';
@@ -24,7 +24,7 @@ function App() {
                             <Header />
                             <Cart />
                             <Route path='/' component={HomePage} exact />
-                            <Route path='/login' component={SignInPage} exact />
+                            <Route path='/login' component={SigninPage} exact />
                             <Route
                                 path='/product/:id'
                                 component={ProductPage}
