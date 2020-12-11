@@ -35,10 +35,9 @@ export const ProductProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: productActionType.FETCH_PRODUCTS_FAILED,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
+                payload: error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
             });
         }
     }, [dispatch]);
@@ -57,10 +56,9 @@ export const ProductProvider = ({ children }) => {
             } catch (error) {
                 dispatch({
                     type: productActionType.FETCH_PRODUCT_DETAILS_FAILED,
-                    payload:
-                        error.response && error.response.data.message
-                            ? error.response.data.message
-                            : error.message,
+                    payload: error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
                 });
             }
         },

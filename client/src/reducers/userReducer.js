@@ -13,26 +13,20 @@ export const userReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                errorLogin: null,
-                errorSignup: null,
                 currentUser: action.payload,
             };
         case userActionType.USER_SIGNUP_FAILED:
-            return {
-                ...state,
-                loading: false,
-                errorSignup: action.payload,
-            };
         case userActionType.USER_LOGIN_FAILED:
             return {
                 ...state,
                 loading: false,
-                errorLogin: action.payload,
+                error: action.payload,
             };
-        case userActionType.SET_SIGNUP_ERROR:
+
+        case userActionType.SET_ERROR:
             return {
                 ...state,
-                errorSignup: action.payload,
+                error: action.payload,
             };
         case userActionType.USER_LOGOUT:
             return {};

@@ -8,35 +8,30 @@ const SignupForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPsw, setRepeatPsw] = useState('');
+
     const history = useHistory();
 
-    const {
-        signup,
-        loading,
-        errorSignup,
-        setSignupError,
-        currentUser,
-    } = useUserContext();
+    const { signup, loading, error, setError, currentUser } = useUserContext();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name.trim().length === 0) {
-            return setSignupError('Name must be filled out');
+            return setError('Name must be filled out');
         }
         if (password !== repeatPsw) {
-            return setSignupError('Password do not match');
+            return setError('Password do not match');
         }
         if (password.trim().includes(' ')) {
-            return setSignupError('Password cannot contain space');
+            return setError('Password cannot contain spaces');
         }
         signup(name, email, password);
     };
 
     useEffect(() => {
         return () => {
-            setSignupError(null);
+            setError(null);
         };
-    }, [setSignupError]);
+    }, [setError]);
 
     useEffect(() => {
         if (currentUser) {
@@ -51,9 +46,7 @@ const SignupForm = () => {
             </h3>
 
             {loading && <h1>...Loading</h1>}
-            {errorSignup && (
-                <span className='text-sm text-red-400'>{errorSignup}</span>
-            )}
+            {error && <span className='text-sm text-red-400'>{error}</span>}
 
             <div className='flex flex-col w-96'>
                 <div className='mb-4'>

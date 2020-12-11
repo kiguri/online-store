@@ -9,7 +9,7 @@ const SigninPage = () => {
         <MainWrap>
             <div className='lg:flex'>
                 <Promo />
-                <div className='lg:w-1/2 xl:w-2/3 lg:order-2 lg:flex ml-6'>
+                <div className='lg:w-1/2 lg:order-2 lg:flex ml-6'>
                     <Tabs>
                         <TabList>
                             <Tab>Sign in</Tab>

@@ -6,7 +6,7 @@ import Input from '../components/Input';
 const SigninForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { loading, errorLogin, currentUser, login } = useUserContext();
+    const { loading, error, setError, currentUser, login } = useUserContext();
     const history = useHistory();
 
     useEffect(() => {
@@ -14,6 +14,10 @@ const SigninForm = () => {
             history.push('/');
         }
     }, [currentUser, history]);
+
+    useEffect(() => {
+        return () => setError(null);
+    }, [setError]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,9 +31,7 @@ const SigninForm = () => {
             </h3>
 
             {loading && <h1>...Loading</h1>}
-            {errorLogin && (
-                <span className='text-sm text-red-400'>{errorLogin}</span>
-            )}
+            {error && <span className='text-sm text-red-400'>{error}</span>}
 
             <div className='flex flex-col w-96'>
                 <div className='mb-4'>

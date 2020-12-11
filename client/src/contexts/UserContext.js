@@ -19,13 +19,12 @@ const initialState = {
         ? JSON.parse(localStorage.getItem('currentUser'))
         : null,
     loading: false,
-    errorSignup: null,
-    errorLogin: null,
+    error: null,
 };
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
-    const { loading, errorSignup, errorLogin, currentUser } = state;
+    const { loading, error, currentUser } = state;
 
     useEffect(() => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -53,10 +52,9 @@ export const UserProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: userActionType.USER_SIGNUP_FAILED,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
+                payload: error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
             });
         }
     };
@@ -80,10 +78,9 @@ export const UserProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: userActionType.USER_LOGIN_FAILED,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
+                payload: error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
             });
         }
     };
@@ -92,9 +89,9 @@ export const UserProvider = ({ children }) => {
         dispatch({ type: userActionType.USER_LOGOUT });
     };
 
-    const setSignupError = useCallback(
+    const setError = useCallback(
         (error) => {
-            dispatch({ type: userActionType.SET_SIGNUP_ERROR, payload: error });
+            dispatch({ type: userActionType.SET_ERROR, payload: error });
         },
         [dispatch]
     );
@@ -103,13 +100,12 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider
             value={{
                 loading,
-                errorSignup,
-                errorLogin,
+                error,
                 currentUser,
                 signup,
                 login,
                 logout,
-                setSignupError,
+                setError,
             }}
         >
             {children}

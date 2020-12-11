@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 const Promo = () => {
     return (
-        <div className='hidden lg:flex lg:flex-col lg:w-1/2 xl:w-1/3 lg:order-1'>
+        <div className='hidden lg:flex lg:flex-col lg:w-1/2 lg:order-1'>
             <h3 className='uppercase text-2xl font-bold mb-7'>Special Promo</h3>
             <span className='mb-4'>Get your spring collection</span>
             <div className='text-black font-medium text-5xl w-96'>
