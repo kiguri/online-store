@@ -6,15 +6,19 @@ import Input from '../components/Input';
 const SigninForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { loading, error, setError, currentUser, login } = useUserContext();
+
     const history = useHistory();
 
+    const { loading, error, setError, currentUser, login } = useUserContext();
+
+    //Redirect to home page if Signin success
     useEffect(() => {
         if (currentUser) {
             history.push('/');
         }
     }, [currentUser, history]);
 
+    // Set error to null when component unmount
     useEffect(() => {
         return () => setError(null);
     }, [setError]);

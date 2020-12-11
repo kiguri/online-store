@@ -20,11 +20,12 @@ const initialState = {
         : null,
     loading: false,
     error: null,
+    user: null,
 };
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
-    const { loading, error, currentUser } = state;
+    const { loading, error, currentUser, user } = state;
 
     useEffect(() => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -35,7 +36,7 @@ export const UserProvider = ({ children }) => {
 
     const signup = async (name, email, password) => {
         try {
-            dispatch({ type: userActionType.USER_SIGNUP });
+            dispatch({ type: userActionType.SIGNUP });
 
             const config = { headers: { 'Content-Type': 'application/json' } };
 
@@ -46,12 +47,12 @@ export const UserProvider = ({ children }) => {
             );
 
             dispatch({
-                type: userActionType.USER_SIGNUP_SUCCESS,
+                type: userActionType.SIGNUP_SUCCESS,
                 payload: data,
             });
         } catch (error) {
             dispatch({
-                type: userActionType.USER_SIGNUP_FAILED,
+                type: userActionType.SIGNUP_FAILED,
                 payload: error.response.data.message
                     ? error.response.data.message
                     : error.message,
@@ -61,7 +62,7 @@ export const UserProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            dispatch({ type: userActionType.USER_LOGIN });
+            dispatch({ type: userActionType.LOGIN });
 
             const config = { headers: { 'Content-Type': 'application/json' } };
 
@@ -72,12 +73,12 @@ export const UserProvider = ({ children }) => {
             );
 
             dispatch({
-                type: userActionType.USER_LOGIN_SUCCESS,
+                type: userActionType.LOGIN_SUCCESS,
                 payload: data,
             });
         } catch (error) {
             dispatch({
-                type: userActionType.USER_LOGIN_FAILED,
+                type: userActionType.LOGIN_FAILED,
                 payload: error.response.data.message
                     ? error.response.data.message
                     : error.message,
@@ -86,7 +87,7 @@ export const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
-        dispatch({ type: userActionType.USER_LOGOUT });
+        dispatch({ type: userActionType.LOGOUT });
     };
 
     const setError = useCallback(
@@ -95,6 +96,32 @@ export const UserProvider = ({ children }) => {
         },
         [dispatch]
     );
+
+    const getUserDetails = async () => {
+        try {
+            dispatch({ type: userActionType.GET_DETAILS });
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            };
+
+            const { data } = await axios.get('api/users/profile', config);
+
+            dispatch({
+                type: userActionType.GET_DETAILS_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            dispatch({
+                type: userActionType.GET_DETAILS_FAILED,
+                payload: error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+            });
+        }
+    };
 
     return (
         <UserContext.Provider
@@ -106,6 +133,8 @@ export const UserProvider = ({ children }) => {
                 login,
                 logout,
                 setError,
+                user,
+                getUserDetails,
             }}
         >
             {children}

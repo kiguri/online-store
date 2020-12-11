@@ -14,7 +14,8 @@ const ProfileDropdown = ({ profileOpen, setProfileOpen }) => {
             } origin-top-right absolute right-0 mt-36 w-36 py-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}
         >
             <Link
-                to='/'
+                to='/profile'
+                onClick={() => setProfileOpen(false)}
                 className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                 role='menuitem'
             >

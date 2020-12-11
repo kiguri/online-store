@@ -2,21 +2,29 @@ import { userActionType } from '../constants/userConstant';
 
 export const userReducer = (state, action) => {
     switch (action.type) {
-        case userActionType.USER_SIGNUP:
-        case userActionType.USER_LOGIN:
+        case userActionType.SIGNUP:
+        case userActionType.LOGIN:
+        case userActionType.GET_DETAILS:
             return {
                 ...state,
                 loading: true,
             };
-        case userActionType.USER_SIGNUP_SUCCESS:
-        case userActionType.USER_LOGIN_SUCCESS:
+        case userActionType.SIGNUP_SUCCESS:
+        case userActionType.LOGIN_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 currentUser: action.payload,
             };
-        case userActionType.USER_SIGNUP_FAILED:
-        case userActionType.USER_LOGIN_FAILED:
+        case userActionType.GET_DETAILS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload,
+            };
+        case userActionType.SIGNUP_FAILED:
+        case userActionType.LOGIN_FAILED:
+        case userActionType.GET_DETAILS_FAILED:
             return {
                 ...state,
                 loading: false,
@@ -28,7 +36,7 @@ export const userReducer = (state, action) => {
                 ...state,
                 error: action.payload,
             };
-        case userActionType.USER_LOGOUT:
+        case userActionType.LOGOUT:
             return {};
         default:
             return state;

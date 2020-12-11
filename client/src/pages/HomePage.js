@@ -15,7 +15,7 @@ const HomePage = () => {
             {loading ? (
                 <h2>Loading...</h2>
             ) : error ? (
-                <h3>{error}</h3>
+                <h3 className='text-red-400'>{error}</h3>
             ) : (
                 <>
                     <h3 className='text-gray-700 text-xl font-medium'>

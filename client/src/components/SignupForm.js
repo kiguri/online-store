@@ -13,6 +13,20 @@ const SignupForm = () => {
 
     const { signup, loading, error, setError, currentUser } = useUserContext();
 
+    //Redirect to home page if Signup success
+    useEffect(() => {
+        if (currentUser) {
+            history.push('/');
+        }
+    }, [currentUser, history]);
+
+    // Set error to null when component unmount
+    useEffect(() => {
+        return () => {
+            setError(null);
+        };
+    }, [setError]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name.trim().length === 0) {
@@ -26,18 +40,6 @@ const SignupForm = () => {
         }
         signup(name, email, password);
     };
-
-    useEffect(() => {
-        return () => {
-            setError(null);
-        };
-    }, [setError]);
-
-    useEffect(() => {
-        if (currentUser) {
-            history.push('/');
-        }
-    }, [currentUser, history]);
 
     return (
         <form onSubmit={handleSubmit}>

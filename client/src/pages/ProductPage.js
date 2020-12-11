@@ -38,7 +38,7 @@ const ProductPage = () => {
             {loading ? (
                 <h2>Loading...</h2>
             ) : error ? (
-                <h3>{error}</h3>
+                <h2 className='text-red-400'>{error}</h2>
             ) : (
                 <div className='md:flex md:items-center'>
                     {/* Product image */}
