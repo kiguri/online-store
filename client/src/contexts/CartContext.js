@@ -13,11 +13,14 @@ const initialState = {
         ? JSON.parse(localStorage.getItem('cart'))
         : [],
     hidden: true,
+    shippingAddress: localStorage.getItem('address')
+        ? JSON.parse(localStorage.getItem('address'))
+        : {},
 };
 
 export const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, initialState);
-    const { cartItems, hidden } = state;
+    const { cartItems, hidden, shippingAddress } = state;
     const total = cartItems.reduce((total, item) => total + item.qty, 0);
     const totalPrice = cartItems
         .reduce((total, item) => total + item.qty * item.price, 0)
@@ -26,6 +29,10 @@ export const CartProvider = ({ children }) => {
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems]);
+
+    useEffect(() => {
+        localStorage.setItem('address', JSON.stringify(shippingAddress));
+    }, [shippingAddress]);
 
     const addToCart = (product) => {
         dispatch({
@@ -44,6 +51,10 @@ export const CartProvider = ({ children }) => {
         dispatch({ type: cartActionType.TOGGLE_CART });
     };
 
+    const saveAddress = (data) => {
+        dispatch({ type: cartActionType.SAVE_ADDRESS, payload: data });
+    };
+
     return (
         <CartContext.Provider
             value={{
@@ -54,6 +65,8 @@ export const CartProvider = ({ children }) => {
                 totalPrice,
                 hidden,
                 toggleCart,
+                saveAddress,
+                shippingAddress,
             }}
         >
             {children}

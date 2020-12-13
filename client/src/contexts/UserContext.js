@@ -20,12 +20,12 @@ const initialState = {
         : null,
     loading: false,
     error: null,
-    user: null,
+    updateSuccess: false,
 };
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
-    const { loading, error, currentUser, user } = state;
+    const { loading, error, currentUser, updateSuccess } = state;
 
     useEffect(() => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -97,9 +97,17 @@ export const UserProvider = ({ children }) => {
         [dispatch]
     );
 
-    const getUserDetails = async () => {
+    const setSuccess = useCallback(
+        (success) => {
+            dispatch({ type: userActionType.SET_SUCCESS, payload: success });
+        },
+        [dispatch]
+    );
+
+    const updateProfile = async (user) => {
         try {
-            dispatch({ type: userActionType.GET_DETAILS });
+            dispatch({ type: userActionType.UPDATE_PROFILE });
+
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,18 +115,19 @@ export const UserProvider = ({ children }) => {
                 },
             };
 
-            const { data } = await axios.get('api/users/profile', config);
+            const { data } = await axios.put('api/users/profile', user, config);
 
             dispatch({
-                type: userActionType.GET_DETAILS_SUCCESS,
+                type: userActionType.UPDATE_PROFILE_SUCCESS,
                 payload: data,
             });
         } catch (error) {
             dispatch({
-                type: userActionType.GET_DETAILS_FAILED,
-                payload: error.response.data.message
-                    ? error.response.data.message
-                    : error.message,
+                type: userActionType.UPDATE_PROFILE_FAILED,
+                payload:
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
             });
         }
     };
@@ -132,9 +141,10 @@ export const UserProvider = ({ children }) => {
                 signup,
                 login,
                 logout,
+                updateProfile,
                 setError,
-                user,
-                getUserDetails,
+                setSuccess,
+                updateSuccess,
             }}
         >
             {children}

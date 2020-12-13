@@ -19,6 +19,12 @@ export const cartReducer = (state, action) => {
                 hidden: !state.hidden,
             };
 
+        case cartActionType.SAVE_ADDRESS:
+            return {
+                ...state,
+                shippingAddress: action.payload,
+            };
+
         default:
             return state;
     }

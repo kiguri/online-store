@@ -32,6 +32,13 @@ const SignupForm = () => {
         if (name.trim().length === 0) {
             return setError('Name must be filled out');
         }
+        if (email.trim().length === 0) {
+            return setError('Email must be filled out');
+        }
+        if (password.trim().length === 0) {
+            return setError('Password must be filled out');
+        }
+
         if (password !== repeatPsw) {
             return setError('Password do not match');
         }

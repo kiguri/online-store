@@ -14,27 +14,49 @@ const ProfilePage = () => {
 
     const {
         error,
+        setError,
         loading,
-        user,
         currentUser,
-        getUserDetails,
+        updateProfile,
+        updateSuccess,
+        setSuccess,
     } = useUserContext();
 
     useEffect(() => {
         if (!currentUser) {
             history.push('/login');
         } else {
-            if (!user) {
-                getUserDetails();
-            } else {
-                setName(user.name);
-                setEmail(user.email);
-            }
+            setName(currentUser.name);
+            setEmail(currentUser.email);
         }
-    }, [history, currentUser, user, getUserDetails]);
+    }, [history, currentUser]);
+
+    // Set error to null when component unmount
+    useEffect(() => {
+        return () => {
+            setError(null);
+            setSuccess(false);
+        };
+    }, [setError, setSuccess]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (name.trim().length === 0) {
+            return setError('Name must be filled out');
+        }
+        if (email.trim().length === 0) {
+            return setError('Email must be filled out');
+        }
+        if (password.trim().length > 0 || repeatPsw.trim().length > 0) {
+            if (password !== repeatPsw) {
+                return setError('Password do not match');
+            }
+            if (password.trim().includes(' ')) {
+                return setError('Password cannot contain spaces');
+            }
+        }
+
+        updateProfile({ id: currentUser._id, name, email, password });
     };
 
     return (
@@ -46,6 +68,11 @@ const ProfilePage = () => {
 
                 {loading && <h1>...Loading</h1>}
                 {error && <span className='text-sm text-red-400'>{error}</span>}
+                {updateSuccess && (
+                    <span className='text-sm text-green-400'>
+                        Profile updated
+                    </span>
+                )}
 
                 <div className='flex flex-col w-96'>
                     <div className='mb-4'>
@@ -61,10 +88,10 @@ const ProfilePage = () => {
                     <div className='mb-4'>
                         <Input
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
                             label='email'
                             type='email'
                             holder='Ex: kiguri@gmail.com'
+                            disabled={true}
                         />
                     </div>
 
