@@ -11,10 +11,21 @@ const DeliveryForm = ({ handleStep }) => {
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
     const [country, setCountry] = useState(shippingAddress.country);
 
+    const [error, setError] = useState('');
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        saveAddress({ address, city, postalCode, country });
-        handleStep('next');
+        if (
+            address.trim().length === 0 ||
+            city.trim().length === 0 ||
+            postalCode.trim().length === 0 ||
+            country.trim().length === 0
+        ) {
+            setError('All field must be fill out');
+        } else {
+            saveAddress({ address, city, postalCode, country });
+            handleStep('next');
+        }
     };
     return (
         <div className='mt-8'>
@@ -22,6 +33,9 @@ const DeliveryForm = ({ handleStep }) => {
                 <h3 className='text-gray-500 text-sm mt-6 mb-2'>
                     Delivery address
                 </h3>
+                {error && (
+                    <span className='text-sm text-red-400 my-2'>{error}</span>
+                )}
                 <div className='flex flex-col w-96'>
                     <div className='mb-4'>
                         <Input
