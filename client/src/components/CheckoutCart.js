@@ -1,5 +1,6 @@
 import { useCartContext } from '../contexts/CartContext';
 import CartItem from './CartItem';
+
 const CheckoutCart = () => {
     const { cartItems, total, totalPrice } = useCartContext();
     return (
