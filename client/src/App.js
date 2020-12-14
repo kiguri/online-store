@@ -14,6 +14,7 @@ import ProfilePage from './pages/ProfilePage';
 import { ProductProvider } from './contexts/ProductContext';
 import { CartProvider } from './contexts/CartContext';
 import { UserProvider } from './contexts/UserContext';
+import { OrderProvider } from './contexts/OrderContext';
 
 function App() {
     return (
@@ -22,19 +23,28 @@ function App() {
                 <ProductProvider>
                     <div className='bg-white'>
                         <CartProvider>
-                            <Header />
-                            <Cart />
-                            <Route path='/' component={HomePage} exact />
-                            <Route path='/login' component={SigninPage} exact />
-                            <Route path='/profile' component={ProfilePage} />
-                            <Route
-                                path='/product/:id'
-                                component={ProductPage}
-                            />
-                            <Route
-                                path='/checkout/:id?'
-                                component={CheckoutPage}
-                            />
+                            <OrderProvider>
+                                <Header />
+                                <Cart />
+                                <Route path='/' component={HomePage} exact />
+                                <Route
+                                    path='/login'
+                                    component={SigninPage}
+                                    exact
+                                />
+                                <Route
+                                    path='/profile'
+                                    component={ProfilePage}
+                                />
+                                <Route
+                                    path='/product/:id'
+                                    component={ProductPage}
+                                />
+                                <Route
+                                    path='/checkout/:id?'
+                                    component={CheckoutPage}
+                                />
+                            </OrderProvider>
                         </CartProvider>
 
                         <Footer />

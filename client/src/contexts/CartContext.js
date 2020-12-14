@@ -38,6 +38,7 @@ export const CartProvider = ({ children }) => {
     );
     const shippingPrice = totalPrice > 200 ? 0 : totalPrice === 0 ? 0 : 40;
     const taxPrice = Number((0.15 * totalPrice).toFixed(2));
+    const endPrice = Number((totalPrice + shippingPrice + taxPrice).toFixed(2));
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -64,6 +65,12 @@ export const CartProvider = ({ children }) => {
             payload: product,
         });
 
+    const clearCart = () => {
+        dispatch({
+            type: cartActionType.CLEAR_CART,
+        });
+    };
+
     const toggleCart = () => {
         dispatch({ type: cartActionType.TOGGLE_CART });
     };
@@ -87,6 +94,7 @@ export const CartProvider = ({ children }) => {
                 cartItems,
                 addToCart,
                 removeFromCart,
+                clearCart,
                 total,
                 totalPrice,
                 hidden,
@@ -97,6 +105,7 @@ export const CartProvider = ({ children }) => {
                 paymentMethod,
                 shippingPrice,
                 taxPrice,
+                endPrice,
             }}
         >
             {children}

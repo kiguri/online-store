@@ -3,7 +3,7 @@ const connectDb = require('./config/db');
 const dotenv = require('dotenv');
 const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
-const orderRouter = require('./routes/user');
+const orderRouter = require('./routes/order');
 const { notFound } = require('./middleware/error');
 
 dotenv.config();

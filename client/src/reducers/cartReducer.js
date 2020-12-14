@@ -18,6 +18,11 @@ export const cartReducer = (state, action) => {
                 ...state,
                 hidden: !state.hidden,
             };
+        case cartActionType.CLEAR_CART:
+            return {
+                ...state,
+                cartItems: [],
+            };
 
         case cartActionType.SAVE_ADDRESS:
             return {

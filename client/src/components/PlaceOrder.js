@@ -1,20 +1,69 @@
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useCartContext } from '../contexts/CartContext';
+import { useUserContext } from '../contexts/UserContext';
+import { useOrderContext } from '../contexts/OrderContext';
 import { ArrowLeftIcon, ArrowRightIcon } from '../svg';
+
 const PlaceOrder = ({ handleStep }) => {
     const {
+        cartItems,
         shippingAddress,
         paymentMethod,
         totalPrice,
         shippingPrice,
         taxPrice,
+        endPrice,
+        clearCart,
     } = useCartContext();
 
+    const history = useHistory();
+
+    const { currentUser } = useUserContext();
+
+    const {
+        order,
+        loading,
+        error,
+        success,
+        createOrder,
+        resetMessage,
+    } = useOrderContext();
+
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`);
+        }
+        // eslint-disable-next-line
+    }, [success, history]);
+
+    useEffect(() => {
+        return () => resetMessage();
+    }, [resetMessage]);
+
     const handlePlaceOrder = () => {
-        console.log('order');
+        if (!currentUser) {
+            history.push('/login');
+        } else {
+            createOrder({
+                orderItems: cartItems,
+                shippingAddress,
+                paymentMethod,
+                itemsPrice: totalPrice,
+                shippingPrice,
+                taxPrice,
+                totalPrice: endPrice,
+            });
+
+            clearCart();
+        }
     };
     return (
         <div className='mt-8 w-96'>
             <h2 className='text-gray-500 text-sm mt-6 mb-2'>Place Order</h2>
+
+            {loading && <h1>...Loading</h1>}
+            {error && <span className='text-sm text-red-400'>{error}</span>}
 
             <div className='text-gray-700 mb-4'>
                 <h3 className='uppercase'>Shipping</h3>
@@ -55,16 +104,7 @@ const PlaceOrder = ({ handleStep }) => {
                         </tr>
                         <tr>
                             <td>Total:</td>
-                            <td>
-                                $
-                                {Number(
-                                    (
-                                        totalPrice +
-                                        shippingPrice +
-                                        taxPrice
-                                    ).toFixed(2)
-                                )}
-                            </td>
+                            <td>${endPrice}</td>
                         </tr>
                     </tbody>
                 </table>
