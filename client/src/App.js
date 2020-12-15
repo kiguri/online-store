@@ -9,6 +9,7 @@ import ProductPage from './pages/ProductPage';
 import CheckoutPage from './pages/CheckoutPage';
 import SigninPage from './pages/SigninPage';
 import ProfilePage from './pages/ProfilePage';
+import OrderPage from './pages/OrderPage';
 
 //Import provider
 import { ProductProvider } from './contexts/ProductContext';
@@ -43,6 +44,10 @@ function App() {
                                 <Route
                                     path='/checkout/:id?'
                                     component={CheckoutPage}
+                                />
+                                <Route
+                                    path='/order/:id'
+                                    component={OrderPage}
                                 />
                             </OrderProvider>
                         </CartProvider>

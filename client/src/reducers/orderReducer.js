@@ -3,6 +3,7 @@ import { orderActionType } from '../constants/orderConstant';
 export const orderReducer = (state, action) => {
     switch (action.type) {
         case orderActionType.CREATE_ORDER:
+        case orderActionType.GET_ORDER:
             return {
                 ...state,
                 loading: true,
@@ -14,7 +15,14 @@ export const orderReducer = (state, action) => {
                 success: true,
                 order: action.payload,
             };
+        case orderActionType.GET_ORDER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                orderDetails: action.payload,
+            };
         case orderActionType.CREATE_ORDER_FAILED:
+        case orderActionType.GET_ORDER_FAILED:
             return {
                 ...state,
                 loading: false,

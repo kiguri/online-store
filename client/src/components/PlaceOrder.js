@@ -10,10 +10,10 @@ const PlaceOrder = ({ handleStep }) => {
         cartItems,
         shippingAddress,
         paymentMethod,
-        totalPrice,
+        itemsPrice,
         shippingPrice,
         taxPrice,
-        endPrice,
+        totalPrice,
         clearCart,
     } = useCartContext();
 
@@ -49,10 +49,10 @@ const PlaceOrder = ({ handleStep }) => {
                 orderItems: cartItems,
                 shippingAddress,
                 paymentMethod,
-                itemsPrice: totalPrice,
+                itemsPrice,
                 shippingPrice,
                 taxPrice,
-                totalPrice: endPrice,
+                totalPrice,
             });
 
             clearCart();
@@ -91,8 +91,8 @@ const PlaceOrder = ({ handleStep }) => {
                 <table className='text-sm mt-3 w-full'>
                     <tbody className='w-full'>
                         <tr>
-                            <td className='w-3/5'>Items:</td>
-                            <td>${totalPrice}</td>
+                            <td className='w-4/5'>Items:</td>
+                            <td>${itemsPrice}</td>
                         </tr>
                         <tr>
                             <td>Shipping:</td>
@@ -104,7 +104,7 @@ const PlaceOrder = ({ handleStep }) => {
                         </tr>
                         <tr>
                             <td>Total:</td>
-                            <td>${endPrice}</td>
+                            <td>${totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -7,7 +7,7 @@ const Cart = () => {
     const {
         cartItems,
         total,
-        totalPrice,
+        itemsPrice,
         hidden,
         toggleCart,
     } = useCartContext();
@@ -55,7 +55,7 @@ const Cart = () => {
                 <span>Chechout</span>
                 <ArrowRightIcon />
                 <span className='h-12 w-20 inline-flex items-center justify-center bg-white ml-3 text-teal-600 rounded-xl'>
-                    {totalPrice}$
+                    {itemsPrice}$
                 </span>
             </Link>
         </div>

@@ -31,14 +31,16 @@ export const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, initialState);
     const { cartItems, hidden, shippingAddress, paymentMethod } = state;
     const total = cartItems.reduce((total, item) => total + item.qty, 0);
-    const totalPrice = Number(
+    const itemsPrice = Number(
         cartItems
             .reduce((total, item) => total + item.qty * item.price, 0)
             .toFixed(2)
     );
-    const shippingPrice = totalPrice > 200 ? 0 : totalPrice === 0 ? 0 : 40;
-    const taxPrice = Number((0.15 * totalPrice).toFixed(2));
-    const endPrice = Number((totalPrice + shippingPrice + taxPrice).toFixed(2));
+    const shippingPrice = itemsPrice > 200 ? 0 : itemsPrice === 0 ? 0 : 40;
+    const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
+    const totalPrice = Number(
+        (itemsPrice + shippingPrice + taxPrice).toFixed(2)
+    );
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -96,7 +98,7 @@ export const CartProvider = ({ children }) => {
                 removeFromCart,
                 clearCart,
                 total,
-                totalPrice,
+                itemsPrice,
                 hidden,
                 toggleCart,
                 saveAddress,
@@ -105,7 +107,7 @@ export const CartProvider = ({ children }) => {
                 paymentMethod,
                 shippingPrice,
                 taxPrice,
-                endPrice,
+                totalPrice,
             }}
         >
             {children}
