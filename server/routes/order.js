@@ -5,7 +5,7 @@ const {
     updateOrderToPaid,
     getOrderList,
 } = require('../controllers/order');
-const protect = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 const orderRouter = express.Router();
 
 // POST /api/orders

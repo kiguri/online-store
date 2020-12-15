@@ -113,9 +113,22 @@ const updateUser = async (req, res) => {
     }
 };
 
+// GET /api/users
+// GET all users
+const getAllUser = async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.json(users);
+    } catch (error) {
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
+    }
+};
+
 module.exports = {
     signup,
     login,
     getUser,
     updateUser,
+    getAllUser,
 };
