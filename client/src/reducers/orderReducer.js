@@ -4,6 +4,7 @@ export const orderReducer = (state, action) => {
     switch (action.type) {
         case orderActionType.CREATE_ORDER:
         case orderActionType.GET_ORDER:
+        case orderActionType.PAY_ORDER:
             return {
                 ...state,
                 loading: true,
@@ -21,14 +22,22 @@ export const orderReducer = (state, action) => {
                 loading: false,
                 orderDetails: action.payload,
             };
+        case orderActionType.PAY_ORDER_SUCCESS:
+            return {
+                ...state,
+                success: true,
+            };
         case orderActionType.CREATE_ORDER_FAILED:
         case orderActionType.GET_ORDER_FAILED:
+        case orderActionType.PAY_ORDER_FAILED:
             return {
                 ...state,
                 loading: false,
                 success: false,
                 error: action.payload,
             };
+        case orderActionType.PAY_ORDER_RESET:
+            return {};
         case orderActionType.RESET_MESSAGE:
             return {
                 ...state,
