@@ -90,7 +90,7 @@ const updateOrderToPaid = async (req, res) => {
 
 // GET /api/orders/myorders
 // Get logged in user order
-const getMyOrders = async (req, res) => {
+const getOrderList = async (req, res) => {
     try {
         const orders = await Order.find({ user: req.user._id });
         res.json(orders);
@@ -100,4 +100,4 @@ const getMyOrders = async (req, res) => {
     }
 };
 
-module.exports = { addOrder, getOrderById, updateOrderToPaid, getMyOrders };
+module.exports = { addOrder, getOrderById, updateOrderToPaid, getOrderList };
