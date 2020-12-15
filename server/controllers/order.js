@@ -62,7 +62,6 @@ const getOrderById = async (req, res) => {
 
 // PUT /api/orders/:id/pay
 // Update order to paid
-
 const updateOrderToPaid = async (req, res) => {
     try {
         const order = await Order.findById(req.params.id);
@@ -89,4 +88,16 @@ const updateOrderToPaid = async (req, res) => {
     }
 };
 
-module.exports = { addOrder, getOrderById, updateOrderToPaid };
+// GET /api/orders/myorders
+// Get logged in user order
+const getMyOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user._id });
+        res.json(orders);
+    } catch (error) {
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
+    }
+};
+
+module.exports = { addOrder, getOrderById, updateOrderToPaid, getMyOrders };
