@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { CartIcon, UserIcon, SearchIcon } from '../svg';
-import ProfileDropdown from './ProfileDropdown';
+import { CartIcon, UserIcon, SearchIcon, CogIcon } from '../svg';
 import { useCartContext } from '../contexts/CartContext';
 import { useUserContext } from '../contexts/UserContext';
+import ProfileDropdown from './ProfileDropdown';
+import AdminDropdown from './AdminDropdown';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
+    const [isAdminOpen, setIsAdminOpen] = useState(false);
     const { toggleCart, total } = useCartContext();
     const { currentUser } = useUserContext();
 
@@ -36,6 +38,7 @@ const Header = () => {
 
                     {/* Icon group */}
                     <div className='w-full flex items-center justify-end relative'>
+                        {/* Cart button */}
                         <button
                             onClick={toggleCart}
                             className='relative text-gray-600 hover:text-gray-500 focus:outline-none mx-4'
@@ -49,9 +52,33 @@ const Header = () => {
                             )}
                         </button>
 
+                        {/* Admin button */}
+                        {currentUser && currentUser.isAdmin ? (
+                            <button
+                                onClick={() => {
+                                    setProfileOpen(false);
+                                    setIsAdminOpen(!isAdminOpen);
+                                }}
+                                type='button'
+                                className='mr-3 text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-500'
+                            >
+                                <CogIcon />
+                            </button>
+                        ) : null}
+
+                        {/* Admin dropdown */}
+                        <AdminDropdown
+                            isAdminOpen={isAdminOpen}
+                            setIsAdminOpen={setIsAdminOpen}
+                        />
+
+                        {/* User button */}
                         {currentUser ? (
                             <button
-                                onClick={() => setProfileOpen(!profileOpen)}
+                                onClick={() => {
+                                    setIsAdminOpen(false);
+                                    setProfileOpen(!profileOpen);
+                                }}
                                 type='button'
                                 className='text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-500'
                             >

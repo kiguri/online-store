@@ -5,6 +5,7 @@ export const userReducer = (state, action) => {
         case userActionType.SIGNUP:
         case userActionType.LOGIN:
         case userActionType.UPDATE_PROFILE:
+        case userActionType.GET_LIST_USER:
             return {
                 ...state,
                 error: null,
@@ -26,6 +27,13 @@ export const userReducer = (state, action) => {
                 updateSuccess: true,
                 currentUser: action.payload,
             };
+        case userActionType.GET_LIST_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                listUser: action.payload,
+            };
+        case userActionType.GET_LIST_USER_FAILED:
         case userActionType.SIGNUP_FAILED:
         case userActionType.LOGIN_FAILED:
         case userActionType.UPDATE_PROFILE_FAILED:

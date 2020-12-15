@@ -21,11 +21,12 @@ const initialState = {
     loading: false,
     error: null,
     updateSuccess: false,
+    listUser: [],
 };
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
-    const { loading, error, currentUser, updateSuccess } = state;
+    const { loading, error, currentUser, updateSuccess, listUser } = state;
 
     useEffect(() => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -115,7 +116,11 @@ export const UserProvider = ({ children }) => {
                 },
             };
 
-            const { data } = await axios.put('api/users/profile', user, config);
+            const { data } = await axios.put(
+                '/api/users/profile',
+                user,
+                config
+            );
 
             dispatch({
                 type: userActionType.UPDATE_PROFILE_SUCCESS,
@@ -132,6 +137,33 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const getListUser = useCallback(async () => {
+        try {
+            dispatch({ type: userActionType.GET_LIST_USER });
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            };
+
+            const { data } = await axios.get(`/api/users`, config);
+
+            dispatch({
+                type: userActionType.GET_LIST_USER_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            dispatch({
+                type: userActionType.GET_LIST_USER_FAILED,
+                payload:
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+            });
+        }
+    }, [dispatch, currentUser]);
+
     return (
         <UserContext.Provider
             value={{
@@ -145,6 +177,8 @@ export const UserProvider = ({ children }) => {
                 setError,
                 setSuccess,
                 updateSuccess,
+                listUser,
+                getListUser,
             }}
         >
             {children}

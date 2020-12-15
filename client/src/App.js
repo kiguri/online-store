@@ -10,6 +10,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import SigninPage from './pages/SigninPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderPage from './pages/OrderPage';
+import ListUserPage from './pages/ListUserPage';
 
 //Import provider
 import { ProductProvider } from './contexts/ProductContext';
@@ -54,6 +55,11 @@ function App() {
                                     <Route
                                         path='/order/:id'
                                         component={OrderPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/admin/users'
+                                        component={ListUserPage}
                                     />
                                 </PaymentProvider>
                             </OrderProvider>
