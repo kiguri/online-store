@@ -1,19 +1,35 @@
 import { useEffect } from 'react';
-import MainWrap from '../components/MainWrap';
+import { useHistory } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
+import MainWrap from '../components/MainWrap';
 const ListUserPage = () => {
-    const { loading, error, listUser, getListUser } = useUserContext();
+    const {
+        loading,
+        error,
+        listUser,
+        getListUser,
+        currentUser,
+    } = useUserContext();
+
+    const history = useHistory();
+
     useEffect(() => {
-        getListUser();
-    }, [getListUser]);
+        if (currentUser && currentUser.isAdmin) {
+            getListUser();
+        } else {
+            history.push('/login');
+        }
+    }, [getListUser, currentUser, history]);
+
     const handleDelete = () => {};
+
     return (
         <MainWrap>
             {loading ? (
                 <h2>Loading...</h2>
             ) : error ? (
                 <h3 className='text-red-400'>{error}</h3>
-            ) : (
+            ) : listUser ? (
                 <>
                     <h3 className='text-gray-700 text-xl font-medium'>
                         List user
@@ -112,7 +128,7 @@ const ListUserPage = () => {
                         </div>
                     </div>
                 </>
-            )}
+            ) : null}
         </MainWrap>
     );
 };
