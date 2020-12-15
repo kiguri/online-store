@@ -77,7 +77,10 @@ const ListUserPage = () => {
                                         </thead>
                                         <tbody className='bg-white divide-y divide-gray-200'>
                                             {listUser.map((user) => (
-                                                <tr key={user._id}>
+                                                <tr
+                                                    className='hover:bg-gray-100'
+                                                    key={user._id}
+                                                >
                                                     <td className='px-6 py-4 whitespace-nowrap'>
                                                         <div className='text-sm font-medium text-gray-900'>
                                                             {user._id}

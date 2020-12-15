@@ -113,6 +113,25 @@ const updateUser = async (req, res) => {
     }
 };
 
+// DELETE /api/users/:id
+// delete user
+const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (user) {
+            user.remove();
+            res.json({ message: 'User deleted' });
+        } else {
+            res.status(404);
+            throw new Error('User not found');
+        }
+    } catch (error) {
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
+    }
+};
+
 // GET /api/users
 // GET all users
 const getAllUser = async (req, res) => {
@@ -131,4 +150,5 @@ module.exports = {
     getUser,
     updateUser,
     getAllUser,
+    deleteUser,
 };

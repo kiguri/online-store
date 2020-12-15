@@ -5,6 +5,7 @@ const {
     getUser,
     updateUser,
     getAllUser,
+    deleteUser,
 } = require('../controllers/user');
 const { protect, admin } = require('../middleware/auth');
 
@@ -13,5 +14,6 @@ const userRouter = express.Router();
 userRouter.route('/').post(signup).get(protect, admin, getAllUser);
 userRouter.route('/login').post(login);
 userRouter.route('/profile').get(protect, getUser).put(protect, updateUser);
+userRouter.route('/:id').delete(protect, admin, deleteUser);
 
 module.exports = userRouter;
