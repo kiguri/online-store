@@ -10,15 +10,15 @@ export const usePaymentContext = () => {
 };
 
 const initialState = {
-    loadingPay: false,
-    errorPay: null,
-    successPay: false,
+    loading: false,
+    error: null,
+    success: false,
 };
 
 export const PaymentProvider = ({ children }) => {
     const [state, dispatch] = useReducer(paymentReducer, initialState);
 
-    const { loadingPay, errorPay, successPay } = state;
+    const { loading, error, success } = state;
 
     const { currentUser } = useUserContext();
 
@@ -59,9 +59,9 @@ export const PaymentProvider = ({ children }) => {
     return (
         <PaymentContext.Provider
             value={{
-                loadingPay,
-                errorPay,
-                successPay,
+                loading,
+                error,
+                success,
                 payOrder,
                 resetPayOrder,
             }}

@@ -9,11 +9,17 @@ import MainWrap from '../components/MainWrap';
 const OrderPage = () => {
     const [sdkReady, setSdkReady] = useState(false);
     const { id } = useParams();
-    const { orderDetails, loading, error, getOrder } = useOrderContext();
+    const {
+        orderDetails,
+        loading,
+        error,
+        getOrder,
+        clearOrderDetails,
+    } = useOrderContext();
 
     const {
-        successPay,
-        loadingPay,
+        success: successPay,
+        loading: loadingPay,
         resetPayOrder,
         payOrder,
     } = usePaymentContext();
@@ -43,6 +49,11 @@ const OrderPage = () => {
         }
     }, [getOrder, id, successPay, orderDetails, resetPayOrder]);
 
+    //RESET ORDER DETAILS TO NULL WHEN UNMOUNT
+    useEffect(() => {
+        return () => clearOrderDetails();
+    }, [clearOrderDetails]);
+
     const handleSuccessPayment = (paymentResult) => {
         payOrder(id, paymentResult);
     };
@@ -62,14 +73,18 @@ const OrderPage = () => {
                     <div className='mt-8 flex flex-col lg:flex-row lg:justify-between'>
                         <div className='flex flex-col'>
                             <div className='text-gray-700 mb-4'>
+                                {/* SHIPPING */}
                                 <h3 className='uppercase mb-3'>Shipping</h3>
                                 <p className='text-sm'>
-                                    Name: {orderDetails.user.name}
+                                    Name:{' '}
+                                    <span className='font-bold'>
+                                        {orderDetails.user.name}
+                                    </span>
                                 </p>
                                 <p className='text-sm'>
                                     Email:{' '}
                                     <a
-                                        className='hover:underline'
+                                        className='hover:underline font-bold'
                                         href={`mailto:${orderDetails.user.email}`}
                                     >
                                         {orderDetails.user.email}
@@ -77,7 +92,7 @@ const OrderPage = () => {
                                 </p>
                                 <p className='text-sm mb-3'>
                                     To address:{' '}
-                                    <span>
+                                    <span className='font-bold'>
                                         {orderDetails.shippingAddress.address},{' '}
                                         {orderDetails.shippingAddress.city},{' '}
                                         {
@@ -98,12 +113,16 @@ const OrderPage = () => {
                                 )}
                             </div>
                             <hr className='mb-4' />
+
+                            {/* Payment method */}
                             <div className='text-gray-700 mb-4'>
                                 <h3 className='uppercase'>Payment method</h3>
 
                                 <p className=' text-sm my-3'>
                                     Method:{' '}
-                                    <span>{orderDetails.paymentMethod}</span>
+                                    <span className='font-bold'>
+                                        {orderDetails.paymentMethod}
+                                    </span>
                                 </p>
                                 {orderDetails.isPaid ? (
                                     <p className='bg-green-200 text-green-700 text-sm py-2 pl-2 rounded'>
@@ -118,6 +137,7 @@ const OrderPage = () => {
 
                             <hr className='mb-4' />
 
+                            {/* Ordered items */}
                             <div className='text-gray-700 mb-4'>
                                 <h3 className='uppercase'>ORDERED ITEMS</h3>
                                 <div className='text-sm mt-3'>
@@ -146,6 +166,8 @@ const OrderPage = () => {
                             </div>
                             <hr className='mb-4' />
                         </div>
+
+                        {/* ORder summary */}
 
                         <div className='text-gray-700 mb-4 lg:w-1/2'>
                             <h3 className='uppercase'>Order summary</h3>
@@ -180,19 +202,22 @@ const OrderPage = () => {
                                 </tbody>
                             </table>
 
-                            {!orderDetails.isPaid && (
-                                <div>
-                                    {loadingPay && <h2>Loading pay...</h2>}
-                                    {!sdkReady ? (
-                                        <h2>Loading...</h2>
-                                    ) : (
-                                        <PayPalButton
-                                            onSuccess={handleSuccessPayment}
-                                            amount={orderDetails.totalPrice}
-                                        />
-                                    )}
-                                </div>
-                            )}
+                            {/* Paypal */}
+                            <div className='mt-3 w-full lg:w-3/5'>
+                                {!orderDetails.isPaid && (
+                                    <div className='mt-2 w-full'>
+                                        {loadingPay && <h2>Loading pay...</h2>}
+                                        {!sdkReady ? (
+                                            <h2>Loading...</h2>
+                                        ) : (
+                                            <PayPalButton
+                                                onSuccess={handleSuccessPayment}
+                                                amount={orderDetails.totalPrice}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </>
