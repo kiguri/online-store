@@ -16,6 +16,7 @@ import { ProductProvider } from './contexts/ProductContext';
 import { CartProvider } from './contexts/CartContext';
 import { UserProvider } from './contexts/UserContext';
 import { OrderProvider } from './contexts/OrderContext';
+import { PaymentProvider } from './contexts/PaymentContext';
 
 function App() {
     return (
@@ -25,30 +26,36 @@ function App() {
                     <div className='bg-white'>
                         <CartProvider>
                             <OrderProvider>
-                                <Header />
-                                <Cart />
-                                <Route path='/' component={HomePage} exact />
-                                <Route
-                                    path='/login'
-                                    component={SigninPage}
-                                    exact
-                                />
-                                <Route
-                                    path='/profile'
-                                    component={ProfilePage}
-                                />
-                                <Route
-                                    path='/product/:id'
-                                    component={ProductPage}
-                                />
-                                <Route
-                                    path='/checkout/:id?'
-                                    component={CheckoutPage}
-                                />
-                                <Route
-                                    path='/order/:id'
-                                    component={OrderPage}
-                                />
+                                <PaymentProvider>
+                                    <Header />
+                                    <Cart />
+                                    <Route
+                                        path='/'
+                                        component={HomePage}
+                                        exact
+                                    />
+                                    <Route
+                                        path='/login'
+                                        component={SigninPage}
+                                        exact
+                                    />
+                                    <Route
+                                        path='/profile'
+                                        component={ProfilePage}
+                                    />
+                                    <Route
+                                        path='/product/:id'
+                                        component={ProductPage}
+                                    />
+                                    <Route
+                                        path='/checkout/:id?'
+                                        component={CheckoutPage}
+                                    />
+                                    <Route
+                                        path='/order/:id'
+                                        component={OrderPage}
+                                    />
+                                </PaymentProvider>
                             </OrderProvider>
                         </CartProvider>
 

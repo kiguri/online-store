@@ -1,15 +1,51 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { useOrderContext } from '../contexts/OrderContext';
+import { usePaymentContext } from '../contexts/PaymentContext';
 import MainWrap from '../components/MainWrap';
 
 const OrderPage = () => {
+    const [sdkReady, setSdkReady] = useState(false);
     const { id } = useParams();
     const { orderDetails, loading, error, getOrder } = useOrderContext();
 
+    const {
+        successPay,
+        loadingPay,
+        resetPayOrder,
+        payOrder,
+    } = usePaymentContext();
+
     useEffect(() => {
-        getOrder(id);
-    }, [getOrder, id]);
+        const addPayPalScript = async () => {
+            const { data: clientId } = await axios.get('/api/config/paypal');
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+            script.async = true;
+            script.onload = () => {
+                setSdkReady(true);
+            };
+            document.body.appendChild(script);
+        };
+
+        if (!orderDetails || successPay) {
+            resetPayOrder();
+            getOrder(id);
+        } else if (!orderDetails.isPaid) {
+            if (!window.paypal) {
+                addPayPalScript();
+            } else {
+                setSdkReady(true);
+            }
+        }
+    }, [getOrder, id, successPay, orderDetails, resetPayOrder]);
+
+    const handleSuccessPayment = (paymentResult) => {
+        payOrder(id, paymentResult);
+    };
 
     return (
         <MainWrap>
@@ -79,7 +115,9 @@ const OrderPage = () => {
                                     </p>
                                 )}
                             </div>
+
                             <hr className='mb-4' />
+
                             <div className='text-gray-700 mb-4'>
                                 <h3 className='uppercase'>ORDERED ITEMS</h3>
                                 <div className='text-sm mt-3'>
@@ -108,6 +146,7 @@ const OrderPage = () => {
                             </div>
                             <hr className='mb-4' />
                         </div>
+
                         <div className='text-gray-700 mb-4 lg:w-1/2'>
                             <h3 className='uppercase'>Order summary</h3>
                             <table className='text-sm mt-3 w-full lg:w-3/5 border-collapse border'>
@@ -140,6 +179,20 @@ const OrderPage = () => {
                                     </tr>
                                 </tbody>
                             </table>
+
+                            {!orderDetails.isPaid && (
+                                <div>
+                                    {loadingPay && <h2>Loading pay...</h2>}
+                                    {!sdkReady ? (
+                                        <h2>Loading...</h2>
+                                    ) : (
+                                        <PayPalButton
+                                            onSuccess={handleSuccessPayment}
+                                            amount={orderDetails.totalPrice}
+                                        />
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </>

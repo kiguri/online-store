@@ -14,14 +14,13 @@ const initialState = {
     order: null,
     loading: false,
     error: null,
-    success: false,
     orderDetails: null,
 };
 
 export const OrderProvider = ({ children }) => {
     const [state, dispatch] = useReducer(orderReducer, initialState);
 
-    const { order, loading, error, success, orderDetails } = state;
+    const { order, loading, error, orderDetails } = state;
 
     const { currentUser } = useUserContext();
 
@@ -86,41 +85,6 @@ export const OrderProvider = ({ children }) => {
         [dispatch, currentUser]
     );
 
-    const payOrder = useCallback(
-        async (id, paymentResult) => {
-            try {
-                dispatch({ type: orderActionType.PAY_ORDER });
-
-                const config = {
-                    headers: {
-                        'Content-Type': 'application.json',
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                };
-
-                const { data } = await axios.put(
-                    `/api/orders/${id}/pay`,
-                    paymentResult,
-                    config
-                );
-
-                dispatch({
-                    type: orderActionType.PAY_ORDER_SUCCESS,
-                    payload: data,
-                });
-            } catch (error) {
-                dispatch({
-                    type: orderActionType.PAY_ORDER_FAILED,
-                    payload:
-                        error.response && error.response.data.message
-                            ? error.response.data.message
-                            : error.message,
-                });
-            }
-        },
-        [dispatch, currentUser]
-    );
-
     const resetMessage = useCallback(() => {
         dispatch({ type: orderActionType.RESET_MESSAGE });
     }, [dispatch]);
@@ -131,11 +95,9 @@ export const OrderProvider = ({ children }) => {
                 order,
                 loading,
                 error,
-                success,
                 orderDetails,
                 createOrder,
                 getOrder,
-                payOrder,
                 resetMessage,
             }}
         >

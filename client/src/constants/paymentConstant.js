@@ -1,0 +1,6 @@
+export const paymentActionType = {
+    PAY_ORDER: 'PAY_ORDER',
+    PAY_ORDER_SUCCESS: 'PAY_ORDER_SUCCESS',
+    PAY_ORDER_FAILED: 'PAY_ORDER_FAILED',
+    PAY_ORDER_RESET: 'PAY_ORDER_RESET',
+};
