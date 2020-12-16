@@ -13,6 +13,7 @@ import OrderPage from './pages/OrderPage';
 import ListUserPage from './pages/ListUserPage';
 import ListProductPage from './pages/ListProductPage';
 import UserEditPage from './pages/UserEditPage';
+import ProductEditPage from './pages/ProductEditPage';
 
 //Import provider
 import { ProductProvider } from './contexts/ProductContext';
@@ -67,6 +68,11 @@ function App() {
                                         exact
                                         path='/admin/user/:id/edit'
                                         component={UserEditPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/admin/product/:id/edit'
+                                        component={ProductEditPage}
                                     />
                                     <Route
                                         exact
