@@ -17,22 +17,16 @@ const initialState = {
     product: {
         reviews: [],
     },
-    deleteLoading: false,
-    deleteSuccess: false,
-    deleteError: null,
+    productDeleteState: {
+        loading: false,
+        success: false,
+        error: null,
+    },
 };
 
 export const ProductProvider = ({ children }) => {
     const [state, dispatch] = useReducer(productReducer, initialState);
-    const {
-        products,
-        loading,
-        error,
-        product,
-        deleteLoading,
-        deleteSuccess,
-        deleteError,
-    } = state;
+    const { products, loading, error, product, productDeleteState } = state;
 
     const { currentUser } = useUserContext();
 
@@ -114,11 +108,9 @@ export const ProductProvider = ({ children }) => {
                 product,
                 loading,
                 error,
-                deleteLoading,
-                deleteError,
-                deleteSuccess,
                 fetchProducts,
                 fetchProductById,
+                productDeleteState,
                 deleteProduct,
             }}
         >

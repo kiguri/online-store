@@ -18,10 +18,14 @@ const UserEditPage = () => {
         getUserDetails,
         updateUser,
         resetUser,
-        loadingUserUpdate,
-        successUserUpdate,
-        errorUserUpdate,
+        updateUserState,
     } = useUserContext();
+
+    const {
+        loading: loadingUserUpdate,
+        success: successUserUpdate,
+        error: errorUserUpdate,
+    } = updateUserState;
 
     useEffect(() => {
         if (successUserUpdate) {
@@ -60,7 +64,7 @@ const UserEditPage = () => {
                         <h3 className='text-black text-2xl font-medium mb-4'>
                             Edit user
                         </h3>
-                        {loadingUserUpdate && <h2>Loading...</h2>}{' '}
+                        {loadingUserUpdate && <h2>Loading user update...</h2>}{' '}
                         {errorUserUpdate && (
                             <h3 className='text-red-400'>{errorUserUpdate}</h3>
                         )}

@@ -8,13 +8,18 @@ const ListProductPage = () => {
     const {
         loading,
         error,
-        deleteLoading,
-        deleteError,
-        deleteSuccess,
         products,
         fetchProducts,
+        productDeleteState,
         deleteProduct,
     } = useProductContext();
+
+    const {
+        error: deleteError,
+        loading: deleteLoading,
+        success: deleteSuccess,
+    } = productDeleteState;
+
     const { currentUser } = useUserContext();
     const history = useHistory();
 
@@ -34,7 +39,7 @@ const ListProductPage = () => {
 
     return (
         <MainWrap>
-            {deleteLoading && <h2>Loading...</h2>}
+            {deleteLoading && <h2>Loading delete...</h2>}
             {deleteError && <h3 className='text-red-400'>{deleteError}</h3>}
             {loading ? (
                 <h2>Loading...</h2>

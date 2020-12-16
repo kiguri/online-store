@@ -22,12 +22,13 @@ const initialState = {
     error: null,
     updateSuccess: false,
     deleteSuccess: false,
-    updateUserSuccess: false,
     listUser: [],
     user: null,
-    loadingUserUpdate: false,
-    successUserUpdate: false,
-    errorUserUpdate: null,
+    updateUserState: {
+        loading: false,
+        success: false,
+        error: null,
+    },
 };
 
 export const UserProvider = ({ children }) => {
@@ -41,9 +42,7 @@ export const UserProvider = ({ children }) => {
         listUser,
         user,
         deleteSuccess,
-        loadingUserUpdate,
-        successUserUpdate,
-        errorUserUpdate,
+        updateUserState,
     } = state;
 
     useEffect(() => {
@@ -294,9 +293,7 @@ export const UserProvider = ({ children }) => {
                 getListUser,
                 deleteUser,
                 deleteSuccess,
-                loadingUserUpdate,
-                successUserUpdate,
-                errorUserUpdate,
+                updateUserState,
                 updateUser,
                 resetUser,
             }}
