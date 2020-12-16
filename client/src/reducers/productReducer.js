@@ -9,6 +9,12 @@ export const productReducer = (state, action) => {
                 loading: true,
                 error: null,
             };
+        case productActionType.DELETE_PRODUCT:
+            return {
+                ...state,
+                deleteLoading: true,
+                deleteError: null,
+            };
         case productActionType.FETCH_PRODUCTS_SUCCESS:
             return {
                 ...state,
@@ -21,12 +27,24 @@ export const productReducer = (state, action) => {
                 loading: false,
                 product: action.payload,
             };
+        case productActionType.DELETE_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                deleteLoading: false,
+                deleteSuccess: true,
+            };
         case productActionType.FETCH_PRODUCTS_FAILED:
         case productActionType.FETCH_PRODUCT_DETAILS_FAILED:
             return {
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+        case productActionType.DELETE_PRODUCT_FAILED:
+            return {
+                ...state,
+                deleteLoading: false,
+                deleteError: action.payload,
             };
         default:
             return state;

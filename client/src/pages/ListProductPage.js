@@ -5,7 +5,16 @@ import { useProductContext } from '../contexts/ProductContext';
 import MainWrap from '../components/MainWrap';
 import { PlusIcon } from '../svg';
 const ListProductPage = () => {
-    const { loading, error, products, fetchProducts } = useProductContext();
+    const {
+        loading,
+        error,
+        deleteLoading,
+        deleteError,
+        deleteSuccess,
+        products,
+        fetchProducts,
+        deleteProduct,
+    } = useProductContext();
     const { currentUser } = useUserContext();
     const history = useHistory();
 
@@ -15,15 +24,18 @@ const ListProductPage = () => {
         } else {
             history.push('/login');
         }
-    }, [currentUser, history, fetchProducts]);
+    }, [currentUser, history, fetchProducts, deleteSuccess]);
 
     const handleDelete = (id) => {
         if (window.confirm('You want to delete product ?')) {
+            deleteProduct(id);
         }
     };
 
     return (
         <MainWrap>
+            {deleteLoading && <h2>Loading...</h2>}
+            {deleteError && <h3 className='text-red-400'>{deleteError}</h3>}
             {loading ? (
                 <h2>Loading...</h2>
             ) : error ? (

@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useCallback } from 'react';
 import { productReducer } from '../reducers/productReducer';
 import { productActionType } from '../constants/productConstant';
+import { useUserContext } from '../contexts/UserContext';
 import axios from 'axios';
 
 const ProductContext = createContext();
@@ -16,11 +17,24 @@ const initialState = {
     product: {
         reviews: [],
     },
+    deleteLoading: false,
+    deleteSuccess: false,
+    deleteError: null,
 };
 
 export const ProductProvider = ({ children }) => {
     const [state, dispatch] = useReducer(productReducer, initialState);
-    const { products, loading, error, product } = state;
+    const {
+        products,
+        loading,
+        error,
+        product,
+        deleteLoading,
+        deleteSuccess,
+        deleteError,
+    } = state;
+
+    const { currentUser } = useUserContext();
 
     const fetchProducts = useCallback(async () => {
         try {
@@ -65,6 +79,34 @@ export const ProductProvider = ({ children }) => {
         [dispatch]
     );
 
+    const deleteProduct = useCallback(
+        async (id) => {
+            try {
+                dispatch({ type: productActionType.DELETE_PRODUCT });
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                };
+
+                await axios.delete(`/api/products/${id}`, config);
+
+                dispatch({
+                    type: productActionType.DELETE_PRODUCT_SUCCESS,
+                });
+            } catch (error) {
+                dispatch({
+                    type: productActionType.DELETE_PRODUCT_FAILED,
+                    payload: error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+                });
+            }
+        },
+        [dispatch, currentUser]
+    );
+
     return (
         <ProductContext.Provider
             value={{
@@ -72,8 +114,12 @@ export const ProductProvider = ({ children }) => {
                 product,
                 loading,
                 error,
+                deleteLoading,
+                deleteError,
+                deleteSuccess,
                 fetchProducts,
                 fetchProductById,
+                deleteProduct,
             }}
         >
             {children}
