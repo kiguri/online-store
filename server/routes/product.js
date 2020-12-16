@@ -1,10 +1,17 @@
 const express = require('express');
-const { fetchAllProduct, fetchProductById } = require('../controllers/product');
+const {
+    fetchAllProduct,
+    fetchProductById,
+    deleteProduct,
+} = require('../controllers/product');
+const { protect, admin } = require('../middleware/auth');
 const productRouter = express.Router();
 
-// GET /api/products
 productRouter.route('/').get(fetchAllProduct);
-// GET /api/products/:id
-productRouter.route('/:id').get(fetchProductById);
+
+productRouter
+    .route('/:id')
+    .get(fetchProductById)
+    .delete(protect, admin, deleteProduct);
 
 module.exports = productRouter;
