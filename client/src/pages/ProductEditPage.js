@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
-
 import { useProductContext } from '../contexts/ProductContext';
 import MainWrap from '../components/MainWrap';
 import Input from '../components/Input';
@@ -17,24 +16,53 @@ const ProductEditPage = () => {
     const { id } = useParams();
     const history = useHistory();
 
-    const { loading, error, product, fetchProductById } = useProductContext();
+    const {
+        loading,
+        error,
+        product,
+        fetchProductById,
+        productUpdateState,
+        updateProduct,
+        resetProduct,
+    } = useProductContext();
+
+    const {
+        loading: loadingUpdate,
+        error: errorUpdate,
+        success: successUpdate,
+    } = productUpdateState;
 
     useEffect(() => {
-        if (!product.name || product._id !== id) {
-            fetchProductById(id);
+        if (successUpdate) {
+            resetProduct();
+            history.push('/admin/products');
         } else {
-            setName(product.name);
-            setPrice(product.price);
-            setImage(product.image);
-            setBrand(product.brand);
-            setCategory(product.category);
-            setCounInStock(product.countInStock);
-            setDescription(product.description);
+            if (!product.name || product._id !== id) {
+                fetchProductById(id);
+            } else {
+                setName(product.name);
+                setPrice(product.price);
+                setImage(product.image);
+                setBrand(product.brand);
+                setCategory(product.category);
+                setCounInStock(product.countInStock);
+                setDescription(product.description);
+            }
         }
-    }, [product, fetchProductById, id]);
+    }, [product, fetchProductById, id, successUpdate, history, resetProduct]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        updateProduct({
+            _id: id,
+            name,
+            image,
+            price,
+            brand,
+            category,
+            countInStock,
+            description,
+        });
     };
     return (
         <MainWrap>
@@ -54,10 +82,10 @@ const ProductEditPage = () => {
                         <h3 className='text-black text-2xl font-medium mb-4'>
                             Edit product
                         </h3>
-                        {/* {loadingUserUpdate && <h2>Loading user update...</h2>}{' '}
-                        {errorUserUpdate && (
-                            <h3 className='text-red-400'>{errorUserUpdate}</h3>
-                        )} */}
+                        {loadingUpdate && <h2>Loading update...</h2>}{' '}
+                        {errorUpdate && (
+                            <h3 className='text-red-400'>{errorUpdate}</h3>
+                        )}
                         <div className='flex flex-col w-96'>
                             <div className='mb-4'>
                                 <Input

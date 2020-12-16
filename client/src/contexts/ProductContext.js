@@ -28,6 +28,11 @@ const initialState = {
         error: null,
         product: {},
     },
+    productUpdateState: {
+        loading: false,
+        success: false,
+        error: null,
+    },
 };
 
 export const ProductProvider = ({ children }) => {
@@ -39,6 +44,7 @@ export const ProductProvider = ({ children }) => {
         product,
         productDeleteState,
         productCreateState,
+        productUpdateState,
     } = state;
 
     const { currentUser } = useUserContext();
@@ -143,9 +149,42 @@ export const ProductProvider = ({ children }) => {
         }
     }, [dispatch, currentUser]);
 
+    const updateProduct = useCallback(
+        async (product) => {
+            try {
+                dispatch({ type: productActionType.UPDATE_PRODUCT });
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                };
+
+                await axios.put(
+                    `/api/products/${product._id}`,
+                    product,
+                    config
+                );
+
+                dispatch({
+                    type: productActionType.UPDATE_PRODUCT_SUCCESS,
+                });
+            } catch (error) {
+                dispatch({
+                    type: productActionType.UPDATE_PRODUCT_FAILED,
+                    payload: error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+                });
+            }
+        },
+        [dispatch, currentUser]
+    );
+
     const resetProduct = useCallback(() => {
-        dispatch({ type: productActionType.CREATE_PRODUCT_RESET });
-    }, [dispatch]);
+        dispatch({ type: productActionType.UPDATE_PRODUCT_RESET });
+    }, []);
 
     return (
         <ProductContext.Provider
@@ -160,6 +199,8 @@ export const ProductProvider = ({ children }) => {
                 deleteProduct,
                 productCreateState,
                 createProduct,
+                productUpdateState,
+                updateProduct,
                 resetProduct,
             }}
         >
