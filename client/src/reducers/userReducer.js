@@ -4,9 +4,10 @@ export const userReducer = (state, action) => {
     switch (action.type) {
         case userActionType.SIGNUP:
         case userActionType.LOGIN:
+        case userActionType.GET_USER:
         case userActionType.UPDATE_PROFILE:
-        case userActionType.GET_LIST_USER:
         case userActionType.DELETE_USER:
+        case userActionType.GET_LIST_USER:
             return {
                 ...state,
                 error: null,
@@ -21,7 +22,12 @@ export const userReducer = (state, action) => {
                 loading: false,
                 currentUser: action.payload,
             };
-
+        case userActionType.GET_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload,
+            };
         case userActionType.UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
@@ -29,23 +35,24 @@ export const userReducer = (state, action) => {
                 updateSuccess: true,
                 currentUser: action.payload,
             };
-        case userActionType.GET_LIST_USER_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                listUser: action.payload,
-            };
         case userActionType.DELETE_USER_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 deleteSuccess: true,
             };
-        case userActionType.GET_LIST_USER_FAILED:
+        case userActionType.GET_LIST_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                listUser: action.payload,
+            };
         case userActionType.SIGNUP_FAILED:
         case userActionType.LOGIN_FAILED:
+        case userActionType.GET_USER_FAILED:
         case userActionType.UPDATE_PROFILE_FAILED:
         case userActionType.DELETE_USER_FAILED:
+        case userActionType.GET_LIST_USER_FAILED:
             return {
                 ...state,
                 loading: false,

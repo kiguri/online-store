@@ -23,6 +23,7 @@ const initialState = {
     updateSuccess: false,
     deleteSuccess: false,
     listUser: [],
+    user: null,
 };
 
 export const UserProvider = ({ children }) => {
@@ -33,6 +34,7 @@ export const UserProvider = ({ children }) => {
         currentUser,
         updateSuccess,
         listUser,
+        user,
         deleteSuccess,
     } = state;
 
@@ -76,7 +78,7 @@ export const UserProvider = ({ children }) => {
             const config = { headers: { 'Content-Type': 'application/json' } };
 
             const { data } = await axios.post(
-                'api/users/login',
+                '/api/users/login',
                 { email, password },
                 config
             );
@@ -98,6 +100,37 @@ export const UserProvider = ({ children }) => {
     const logout = () => {
         dispatch({ type: userActionType.LOGOUT });
     };
+
+    const getUserDetails = useCallback(
+        async (id) => {
+            try {
+                dispatch({ type: userActionType.GET_USER });
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                };
+
+                const { data } = await axios.get(`/api/users/${id}`, config);
+
+                dispatch({
+                    type: userActionType.GET_USER_SUCCESS,
+                    payload: data,
+                });
+            } catch (error) {
+                dispatch({
+                    type: userActionType.GET_USER_FAILED,
+                    payload:
+                        error.response && error.response.data.message
+                            ? error.response.data.message
+                            : error.message,
+                });
+            }
+        },
+        [dispatch, currentUser]
+    );
 
     const setError = useCallback(
         (error) => {
@@ -210,6 +243,8 @@ export const UserProvider = ({ children }) => {
                 signup,
                 login,
                 logout,
+                user,
+                getUserDetails,
                 updateProfile,
                 setError,
                 setSuccess,

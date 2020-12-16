@@ -117,7 +117,7 @@ const ListUserPage = () => {
                                                     </td>
                                                     <td className='px-6 py-4 flex justify-end whitespace-nowrap'>
                                                         <Link
-                                                            to={`/user/${user._id}/edit`}
+                                                            to={`/admin/user/${user._id}/edit`}
                                                             className='text-indigo-600 hover:text-indigo-900 text-sm font-medium focus:outline-none'
                                                         >
                                                             Edit
