@@ -11,6 +11,7 @@ import SigninPage from './pages/SigninPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderPage from './pages/OrderPage';
 import ListUserPage from './pages/ListUserPage';
+import ListProductPage from './pages/ListProductPage';
 import UserEditPage from './pages/UserEditPage';
 
 //Import provider
@@ -66,6 +67,11 @@ function App() {
                                         exact
                                         path='/admin/user/:id/edit'
                                         component={UserEditPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/admin/products'
+                                        component={ListProductPage}
                                     />
                                 </PaymentProvider>
                             </OrderProvider>
