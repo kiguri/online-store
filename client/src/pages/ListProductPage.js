@@ -4,6 +4,7 @@ import { useUserContext } from '../contexts/UserContext';
 import { useProductContext } from '../contexts/ProductContext';
 import MainWrap from '../components/MainWrap';
 import { PlusIcon } from '../svg';
+
 const ListProductPage = () => {
     const {
         loading,
@@ -12,6 +13,8 @@ const ListProductPage = () => {
         fetchProducts,
         productDeleteState,
         deleteProduct,
+        productCreateState,
+        createProduct,
     } = useProductContext();
 
     const {
@@ -20,27 +23,49 @@ const ListProductPage = () => {
         success: deleteSuccess,
     } = productDeleteState;
 
+    const {
+        error: createError,
+        loading: createLoading,
+        success: createSuccess,
+        product,
+    } = productCreateState;
+
     const { currentUser } = useUserContext();
     const history = useHistory();
 
     useEffect(() => {
-        if (currentUser && currentUser.isAdmin) {
-            fetchProducts();
-        } else {
+        if (!currentUser || !currentUser.isAdmin) {
             history.push('/login');
         }
-    }, [currentUser, history, fetchProducts, deleteSuccess]);
+        if (createSuccess) {
+            history.push(`/admin/product/${product._id}/edit`);
+        } else {
+            fetchProducts();
+        }
+    }, [
+        currentUser,
+        history,
+        fetchProducts,
+        deleteSuccess,
+        createSuccess,
+        product,
+    ]);
 
     const handleDelete = (id) => {
         if (window.confirm('You want to delete product ?')) {
             deleteProduct(id);
         }
     };
+    const handleCreate = () => {
+        createProduct();
+    };
 
     return (
         <MainWrap>
             {deleteLoading && <h2>Loading delete...</h2>}
             {deleteError && <h3 className='text-red-400'>{deleteError}</h3>}
+            {createLoading && <h2>Loading create...</h2>}
+            {createError && <h3 className='text-red-400'>{createError}</h3>}
             {loading ? (
                 <h2>Loading...</h2>
             ) : error ? (
@@ -51,7 +76,10 @@ const ListProductPage = () => {
                         <h3 className='text-gray-700 text-xl font-medium uppercase'>
                             Products
                         </h3>
-                        <button className='bg-teal-800 text-sm hover:bg-teal-700 text-white py-2 px-2 rounded flex items-center focus:outline-none'>
+                        <button
+                            onClick={handleCreate}
+                            className='bg-teal-800 text-sm hover:bg-teal-700 text-white py-2 px-2 rounded flex items-center focus:outline-none'
+                        >
                             <PlusIcon />
                             <span className='uppercase ml-1'>Create one</span>
                         </button>
