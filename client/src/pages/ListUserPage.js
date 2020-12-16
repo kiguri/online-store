@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
 import MainWrap from '../components/MainWrap';
 const ListUserPage = () => {
@@ -116,9 +116,12 @@ const ListUserPage = () => {
                                                         </span>
                                                     </td>
                                                     <td className='px-6 py-4 flex justify-end whitespace-nowrap'>
-                                                        <button className='text-indigo-600 hover:text-indigo-900 text-sm font-medium focus:outline-none'>
+                                                        <Link
+                                                            to={`/user/${user._id}/edit`}
+                                                            className='text-indigo-600 hover:text-indigo-900 text-sm font-medium focus:outline-none'
+                                                        >
                                                             Edit
-                                                        </button>
+                                                        </Link>
                                                         <button
                                                             onClick={() =>
                                                                 handleDelete(
