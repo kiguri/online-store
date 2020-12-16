@@ -6,11 +6,13 @@ export const userReducer = (state, action) => {
         case userActionType.LOGIN:
         case userActionType.UPDATE_PROFILE:
         case userActionType.GET_LIST_USER:
+        case userActionType.DELETE_USER:
             return {
                 ...state,
                 error: null,
                 loading: true,
                 updateSuccess: false,
+                deleteSuccess: false,
             };
         case userActionType.SIGNUP_SUCCESS:
         case userActionType.LOGIN_SUCCESS:
@@ -33,10 +35,17 @@ export const userReducer = (state, action) => {
                 loading: false,
                 listUser: action.payload,
             };
+        case userActionType.DELETE_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                deleteSuccess: true,
+            };
         case userActionType.GET_LIST_USER_FAILED:
         case userActionType.SIGNUP_FAILED:
         case userActionType.LOGIN_FAILED:
         case userActionType.UPDATE_PROFILE_FAILED:
+        case userActionType.DELETE_USER_FAILED:
             return {
                 ...state,
                 loading: false,
@@ -52,6 +61,7 @@ export const userReducer = (state, action) => {
             return {
                 ...state,
                 updateSuccess: false,
+                deleteSuccess: false,
             };
         case userActionType.LOGOUT:
             return {};

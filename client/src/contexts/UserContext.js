@@ -21,12 +21,20 @@ const initialState = {
     loading: false,
     error: null,
     updateSuccess: false,
+    deleteSuccess: false,
     listUser: [],
 };
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
-    const { loading, error, currentUser, updateSuccess, listUser } = state;
+    const {
+        loading,
+        error,
+        currentUser,
+        updateSuccess,
+        listUser,
+        deleteSuccess,
+    } = state;
 
     useEffect(() => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -164,6 +172,35 @@ export const UserProvider = ({ children }) => {
         }
     }, [dispatch, currentUser]);
 
+    const deleteUser = useCallback(
+        async (id) => {
+            try {
+                dispatch({ type: userActionType.DELETE_USER });
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                };
+
+                await axios.delete(`/api/users/${id}`, config);
+
+                dispatch({
+                    type: userActionType.DELETE_USER_SUCCESS,
+                });
+            } catch (error) {
+                dispatch({
+                    type: userActionType.DELETE_USER_FAILED,
+                    payload:
+                        error.response && error.response.data.message
+                            ? error.response.data.message
+                            : error.message,
+                });
+            }
+        },
+        [dispatch, currentUser]
+    );
+
     return (
         <UserContext.Provider
             value={{
@@ -179,6 +216,8 @@ export const UserProvider = ({ children }) => {
                 updateSuccess,
                 listUser,
                 getListUser,
+                deleteUser,
+                deleteSuccess,
             }}
         >
             {children}

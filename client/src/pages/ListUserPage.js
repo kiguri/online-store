@@ -9,6 +9,8 @@ const ListUserPage = () => {
         listUser,
         getListUser,
         currentUser,
+        deleteSuccess,
+        deleteUser,
     } = useUserContext();
 
     const history = useHistory();
@@ -19,9 +21,13 @@ const ListUserPage = () => {
         } else {
             history.push('/login');
         }
-    }, [getListUser, currentUser, history]);
+    }, [getListUser, currentUser, history, deleteSuccess]);
 
-    const handleDelete = () => {};
+    const handleDelete = (id) => {
+        if (window.confirm('You want to delete user ?')) {
+            deleteUser(id);
+        }
+    };
 
     return (
         <MainWrap>
@@ -114,8 +120,10 @@ const ListUserPage = () => {
                                                             Edit
                                                         </button>
                                                         <button
-                                                            onClick={
-                                                                handleDelete
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    user._id
+                                                                )
                                                             }
                                                             className='ml-2 text-red-600 hover:text-red-900 text-sm font-medium focus:outline-none'
                                                         >
