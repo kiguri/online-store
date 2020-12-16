@@ -58,6 +58,27 @@ export const userReducer = (state, action) => {
                 loading: false,
                 error: action.payload,
             };
+        case userActionType.UPDATE_USER:
+            return {
+                ...state,
+                loadingUserUpdate: true,
+            };
+        case userActionType.UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                loadingUserUpdate: false,
+                successUserUpdate: true,
+            };
+        case userActionType.UPDATE_USER_FAILED:
+            return {
+                ...state,
+                errorUserUpdate: action.payload,
+            };
+        case userActionType.UPDATE_USER_RESET:
+            return {
+                ...state,
+                user: null,
+            };
 
         case userActionType.SET_ERROR:
             return {
@@ -69,6 +90,7 @@ export const userReducer = (state, action) => {
                 ...state,
                 updateSuccess: false,
                 deleteSuccess: false,
+                successUserUpdate: false,
             };
         case userActionType.LOGOUT:
             return {};

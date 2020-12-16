@@ -46,7 +46,7 @@ const ProfilePage = () => {
     useEffect(() => {
         return () => {
             setError(null);
-            setSuccess(false);
+            setSuccess();
         };
     }, [setError, setSuccess]);
 

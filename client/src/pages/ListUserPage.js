@@ -24,6 +24,9 @@ const ListUserPage = () => {
     }, [getListUser, currentUser, history, deleteSuccess]);
 
     const handleDelete = (id) => {
+        if (currentUser._id === id) {
+            return alert('Cannot delete your self');
+        }
         if (window.confirm('You want to delete user ?')) {
             deleteUser(id);
         }

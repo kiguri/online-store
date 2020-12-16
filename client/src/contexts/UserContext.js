@@ -22,12 +22,17 @@ const initialState = {
     error: null,
     updateSuccess: false,
     deleteSuccess: false,
+    updateUserSuccess: false,
     listUser: [],
     user: null,
+    loadingUserUpdate: false,
+    successUserUpdate: false,
+    errorUserUpdate: null,
 };
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
+
     const {
         loading,
         error,
@@ -36,6 +41,9 @@ export const UserProvider = ({ children }) => {
         listUser,
         user,
         deleteSuccess,
+        loadingUserUpdate,
+        successUserUpdate,
+        errorUserUpdate,
     } = state;
 
     useEffect(() => {
@@ -139,12 +147,9 @@ export const UserProvider = ({ children }) => {
         [dispatch]
     );
 
-    const setSuccess = useCallback(
-        (success) => {
-            dispatch({ type: userActionType.SET_SUCCESS, payload: success });
-        },
-        [dispatch]
-    );
+    const setSuccess = useCallback(() => {
+        dispatch({ type: userActionType.SET_SUCCESS });
+    }, [dispatch]);
 
     const updateProfile = async (user) => {
         try {
@@ -234,6 +239,42 @@ export const UserProvider = ({ children }) => {
         [dispatch, currentUser]
     );
 
+    const updateUser = useCallback(
+        async (user) => {
+            try {
+                dispatch({ type: userActionType.UPDATE_USER });
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${currentUser.token}`,
+                    },
+                };
+
+                await axios.put(`/api/users/${user._id}`, user, config);
+
+                dispatch({
+                    type: userActionType.UPDATE_USER_SUCCESS,
+                });
+
+                setSuccess();
+            } catch (error) {
+                dispatch({
+                    type: userActionType.UPDATE_USER_FAILED,
+                    payload:
+                        error.response && error.response.data.message
+                            ? error.response.data.message
+                            : error.message,
+                });
+            }
+        },
+        [dispatch, currentUser, setSuccess]
+    );
+
+    const resetUser = useCallback(() => {
+        dispatch({ type: userActionType.UPDATE_USER_RESET });
+    }, [dispatch]);
+
     return (
         <UserContext.Provider
             value={{
@@ -253,6 +294,11 @@ export const UserProvider = ({ children }) => {
                 getListUser,
                 deleteUser,
                 deleteSuccess,
+                loadingUserUpdate,
+                successUserUpdate,
+                errorUserUpdate,
+                updateUser,
+                resetUser,
             }}
         >
             {children}

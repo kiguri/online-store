@@ -11,20 +11,36 @@ const UserEditPage = () => {
     const { id } = useParams();
     const history = useHistory();
 
-    const { loading, error, user, getUserDetails } = useUserContext();
+    const {
+        loading,
+        error,
+        user,
+        getUserDetails,
+        updateUser,
+        resetUser,
+        loadingUserUpdate,
+        successUserUpdate,
+        errorUserUpdate,
+    } = useUserContext();
 
     useEffect(() => {
-        if (!user || user._id !== id) {
-            getUserDetails(id);
+        if (successUserUpdate) {
+            resetUser();
+            history.push('/admin/users');
         } else {
-            setName(user.name);
-            setEmail(user.email);
-            setIsAdmin(user.isAdmin);
+            if (!user || user._id !== id) {
+                getUserDetails(id);
+            } else {
+                setName(user.name);
+                setEmail(user.email);
+                setIsAdmin(user.isAdmin);
+            }
         }
-    }, [getUserDetails, id, user]);
+    }, [getUserDetails, id, user, successUserUpdate, history, resetUser]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        updateUser({ _id: id, name, email, isAdmin });
     };
     return (
         <MainWrap>
@@ -44,6 +60,10 @@ const UserEditPage = () => {
                         <h3 className='text-black text-2xl font-medium mb-4'>
                             Edit user
                         </h3>
+                        {loadingUserUpdate && <h2>Loading...</h2>}{' '}
+                        {errorUserUpdate && (
+                            <h3 className='text-red-400'>{errorUserUpdate}</h3>
+                        )}
                         <div className='flex flex-col w-96'>
                             <div className='mb-4'>
                                 <Input
