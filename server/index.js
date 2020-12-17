@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDb = require('./config/db');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
 const orderRouter = require('./routes/order');
@@ -9,6 +10,10 @@ const { notFound } = require('./middleware/error');
 dotenv.config();
 connectDb();
 const app = express();
+
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 
 app.use(express.json());
 
