@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { CartIcon, UserIcon, SearchIcon, CogIcon } from '../svg';
+import { CartIcon, UserIcon, CogIcon } from '../svg';
 import { useCartContext } from '../contexts/CartContext';
 import { useUserContext } from '../contexts/UserContext';
 import ProfileDropdown from './ProfileDropdown';
 import AdminDropdown from './AdminDropdown';
+import SearchBox from './SearchBox';
 
 const Header = () => {
     const [profileOpen, setProfileOpen] = useState(false);
@@ -25,16 +26,7 @@ const Header = () => {
                     </Link>
 
                     {/* Searchbox */}
-                    <div className='w-full relative'>
-                        <span className='absolute inset-y-0 right-1 flex items-center'>
-                            <SearchIcon />
-                        </span>
-                        <input
-                            className='w-full border rounded-md pl-4 sm:py-2 focus:border-teal-500 focus:outline-none focus:shadow-outline'
-                            type='text'
-                            placeholder='Search'
-                        />
-                    </div>
+                    <SearchBox />
 
                     {/* Icon group */}
                     <div className='w-full flex items-center justify-end relative'>

@@ -49,25 +49,30 @@ export const ProductProvider = ({ children }) => {
 
     const { currentUser } = useUserContext();
 
-    const fetchProducts = useCallback(async () => {
-        try {
-            dispatch({ type: productActionType.FETCH_PRODUCTS });
+    const fetchProducts = useCallback(
+        async (keyword = '') => {
+            try {
+                dispatch({ type: productActionType.FETCH_PRODUCTS });
 
-            const { data } = await axios.get('/api/products');
+                const { data } = await axios.get(
+                    `/api/products?keyword=${keyword}`
+                );
 
-            dispatch({
-                type: productActionType.FETCH_PRODUCTS_SUCCESS,
-                payload: data,
-            });
-        } catch (error) {
-            dispatch({
-                type: productActionType.FETCH_PRODUCTS_FAILED,
-                payload: error.response.data.message
-                    ? error.response.data.message
-                    : error.message,
-            });
-        }
-    }, [dispatch]);
+                dispatch({
+                    type: productActionType.FETCH_PRODUCTS_SUCCESS,
+                    payload: data,
+                });
+            } catch (error) {
+                dispatch({
+                    type: productActionType.FETCH_PRODUCTS_FAILED,
+                    payload: error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+                });
+            }
+        },
+        [dispatch]
+    );
 
     const fetchProductById = useCallback(
         async (id) => {

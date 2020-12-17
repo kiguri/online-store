@@ -40,6 +40,11 @@ function App() {
                                         exact
                                     />
                                     <Route
+                                        path='/search/:keyword'
+                                        component={HomePage}
+                                        exact
+                                    />
+                                    <Route
                                         path='/login'
                                         component={SigninPage}
                                         exact
