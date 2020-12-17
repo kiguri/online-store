@@ -133,7 +133,7 @@ const ListOrderPage = () => {
                                                     <td>
                                                         <Link
                                                             className='hover:underline px-4 py-2 rounded text-blue-400 border border-blue-400 hover:text-white hover:bg-blue-500 transition duration-300'
-                                                            to={`/admin/order/${order._id}`}
+                                                            to={`/order/${order._id}`}
                                                         >
                                                             Details
                                                         </Link>
