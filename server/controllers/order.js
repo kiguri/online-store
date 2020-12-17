@@ -100,4 +100,22 @@ const getOrderList = async (req, res) => {
     }
 };
 
-module.exports = { addOrder, getOrderById, updateOrderToPaid, getOrderList };
+// GET /api/orders/
+// Get all order on system
+const getAllOrder = async (req, res) => {
+    try {
+        const orders = await Order.find({}).populate('user', 'id name');
+        res.json(orders);
+    } catch (error) {
+        const statusCode = res.statusCode !== 500 ? res.statusCode : 500;
+        res.status(statusCode).send({ message: error.message });
+    }
+};
+
+module.exports = {
+    addOrder,
+    getOrderById,
+    updateOrderToPaid,
+    getOrderList,
+    getAllOrder,
+};
