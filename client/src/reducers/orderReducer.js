@@ -51,6 +51,31 @@ export const orderReducer = (state, action) => {
             };
         }
 
+        //Get all order
+        case orderActionType.GET_ALL_ORDER:
+            return {
+                ...state,
+                allOrderState: {
+                    loading: true,
+                },
+            };
+        case orderActionType.GET_ALL_ORDER_SUCCESS:
+            return {
+                ...state,
+                allOrderState: {
+                    orders: action.payload,
+                    loading: false,
+                },
+            };
+        case orderActionType.GET_ALL_ORDER_FAILED:
+            return {
+                ...state,
+                allOrderState: {
+                    error: action.payload,
+                    loading: false,
+                },
+            };
+
         default:
             return state;
     }

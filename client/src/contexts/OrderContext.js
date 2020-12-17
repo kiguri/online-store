@@ -17,12 +17,25 @@ const initialState = {
     success: false,
     orderDetails: null,
     listOrder: [],
+    allOrderState: {
+        loading: false,
+        error: null,
+        orders: [],
+    },
 };
 
 export const OrderProvider = ({ children }) => {
     const [state, dispatch] = useReducer(orderReducer, initialState);
 
-    const { order, loading, error, success, orderDetails, listOrder } = state;
+    const {
+        order,
+        loading,
+        error,
+        success,
+        orderDetails,
+        listOrder,
+        allOrderState,
+    } = state;
 
     const { currentUser } = useUserContext();
 
@@ -87,6 +100,7 @@ export const OrderProvider = ({ children }) => {
         [dispatch, currentUser]
     );
 
+    //get list order of currentuser
     const getListOrder = useCallback(async () => {
         try {
             dispatch({ type: orderActionType.GET_ORDER_LIST });
@@ -114,7 +128,34 @@ export const OrderProvider = ({ children }) => {
         }
     }, [dispatch, currentUser]);
 
-    //RESET ORDER DETAILS TO NULL WHEN UNMOUNT
+    //get all order on all user
+    const getAllOrder = useCallback(async () => {
+        try {
+            dispatch({ type: orderActionType.GET_ALL_ORDER });
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                },
+            };
+
+            const { data } = await axios.get(`/api/orders/`, config);
+
+            dispatch({
+                type: orderActionType.GET_ALL_ORDER_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            dispatch({
+                type: orderActionType.GET_ALL_ORDER_FAILED,
+                payload:
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+            });
+        }
+    }, [dispatch, currentUser]);
+
     const clearOrderDetails = useCallback(() => {
         dispatch({ type: orderActionType.CLEAR_ORDER_DETAILS });
     }, [dispatch]);
@@ -137,6 +178,8 @@ export const OrderProvider = ({ children }) => {
                 getListOrder,
                 resetMessage,
                 clearOrderDetails,
+                allOrderState,
+                getAllOrder,
             }}
         >
             {children}

@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 import OrderPage from './pages/OrderPage';
 import ListUserPage from './pages/ListUserPage';
 import ListProductPage from './pages/ListProductPage';
+import ListOrderPage from './pages/ListOrderPage';
 import UserEditPage from './pages/UserEditPage';
 import ProductEditPage from './pages/ProductEditPage';
 
@@ -78,6 +79,11 @@ function App() {
                                         exact
                                         path='/admin/products'
                                         component={ListProductPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/admin/orders'
+                                        component={ListOrderPage}
                                     />
                                 </PaymentProvider>
                             </OrderProvider>
