@@ -14,7 +14,9 @@ export const productReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                products: action.payload,
+                products: action.payload.products,
+                pages: action.payload.pages,
+                page: action.payload.page,
             };
         case productActionType.FETCH_PRODUCT_DETAILS_SUCCESS:
             return {

@@ -4,6 +4,8 @@ const Product = require('../models/product');
 //Fetch all products
 const fetchAllProduct = async (req, res) => {
     try {
+        const pageSize = 6;
+        const page = Number(req.query.pageNumber) || 1;
         const keyword = req.query.keyword
             ? {
                   name: {
@@ -12,9 +14,12 @@ const fetchAllProduct = async (req, res) => {
                   },
               }
             : {};
-        const products = await Product.find({ ...keyword });
+        const count = await Product.countDocuments({ ...keyword });
+        const products = await Product.find({ ...keyword })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1));
 
-        res.json(products);
+        res.json({ products, page, pages: Math.ceil(count / pageSize) });
     } catch (error) {
         res.status(500).send({ message: error.message });
     }

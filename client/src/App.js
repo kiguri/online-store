@@ -45,6 +45,16 @@ function App() {
                                         exact
                                     />
                                     <Route
+                                        path='/page/:pageNumber'
+                                        component={HomePage}
+                                        exact
+                                    />
+                                    <Route
+                                        path='/search/:keyword/page/:pageNumber'
+                                        component={HomePage}
+                                        exact
+                                    />
+                                    <Route
                                         path='/login'
                                         component={SigninPage}
                                         exact
@@ -83,6 +93,11 @@ function App() {
                                     <Route
                                         exact
                                         path='/admin/products'
+                                        component={ListProductPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/admin/products/:pageNumber'
                                         component={ListProductPage}
                                     />
                                     <Route

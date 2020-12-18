@@ -17,6 +17,8 @@ const initialState = {
     product: {
         reviews: [],
     },
+    page: 1,
+    pages: 6,
     productDeleteState: {
         loading: false,
         success: false,
@@ -42,6 +44,8 @@ export const ProductProvider = ({ children }) => {
         loading,
         error,
         product,
+        page,
+        pages,
         productDeleteState,
         productCreateState,
         productUpdateState,
@@ -50,12 +54,12 @@ export const ProductProvider = ({ children }) => {
     const { currentUser } = useUserContext();
 
     const fetchProducts = useCallback(
-        async (keyword = '') => {
+        async (keyword = '', pageNumber = '') => {
             try {
                 dispatch({ type: productActionType.FETCH_PRODUCTS });
 
                 const { data } = await axios.get(
-                    `/api/products?keyword=${keyword}`
+                    `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
                 );
 
                 dispatch({
@@ -198,6 +202,8 @@ export const ProductProvider = ({ children }) => {
                 product,
                 loading,
                 error,
+                page,
+                pages,
                 fetchProducts,
                 fetchProductById,
                 productDeleteState,

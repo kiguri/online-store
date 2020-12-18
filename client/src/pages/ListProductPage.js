@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
 import { useProductContext } from '../contexts/ProductContext';
 import MainWrap from '../components/MainWrap';
+import Pagination from '../components/Pagination';
 import { PlusIcon } from '../svg';
 
 const ListProductPage = () => {
@@ -10,12 +11,16 @@ const ListProductPage = () => {
         loading,
         error,
         products,
+        page,
+        pages,
         fetchProducts,
         productDeleteState,
         deleteProduct,
         productCreateState,
         createProduct,
     } = useProductContext();
+    const { pageNumber } = useParams();
+    const pageCount = pageNumber || 1;
 
     const {
         error: deleteError,
@@ -40,7 +45,7 @@ const ListProductPage = () => {
         if (createSuccess) {
             history.push(`/admin/product/${product._id}/edit`);
         } else {
-            fetchProducts();
+            fetchProducts('', pageCount);
         }
     }, [
         currentUser,
@@ -49,6 +54,7 @@ const ListProductPage = () => {
         deleteSuccess,
         createSuccess,
         product,
+        pageCount,
     ]);
 
     const handleDelete = (id) => {
@@ -185,6 +191,11 @@ const ListProductPage = () => {
                                         </tbody>
                                     </table>
                                 </div>
+                                <Pagination
+                                    pages={pages}
+                                    page={page}
+                                    isAdmin={true}
+                                />
                             </div>
                         </div>
                     </div>

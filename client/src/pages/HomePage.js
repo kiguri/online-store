@@ -3,14 +3,23 @@ import { useParams } from 'react-router-dom';
 import { useProductContext } from '../contexts/ProductContext';
 import MainWrap from '../components/MainWrap';
 import Product from '../components/Product';
+import Pagination from '../components/Pagination';
 
 const HomePage = () => {
-    const { keyword } = useParams();
-    const { products, loading, error, fetchProducts } = useProductContext();
+    const { keyword, pageNumber } = useParams();
+    const pageCount = pageNumber || 1;
+    const {
+        products,
+        loading,
+        error,
+        fetchProducts,
+        page,
+        pages,
+    } = useProductContext();
 
     useEffect(() => {
-        fetchProducts(keyword);
-    }, [fetchProducts, keyword]);
+        fetchProducts(keyword, pageCount);
+    }, [fetchProducts, keyword, pageCount]);
 
     return (
         <MainWrap>
@@ -39,6 +48,11 @@ const HomePage = () => {
                                     />
                                 ))}
                             </div>
+                            <Pagination
+                                keyword={keyword ? keyword : ''}
+                                pages={pages}
+                                page={page}
+                            />
                         </>
                     )}
                 </>
